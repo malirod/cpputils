@@ -1,0 +1,5 @@
+source: https://github.com/google/styleguide/tree/gh-pages/cpplint
+version: https://github.com/google/styleguide/commit/ae11811f8191818b894707223c37bf27f7b9b729
+
+usage:
+python infrastructure/tools/cpplint/cpplint.py <file>
