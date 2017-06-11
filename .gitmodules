@@ -1,3 +1,4 @@
 [submodule "thirdparty/log4cplus"]
 	path = thirdparty/log4cplus
 	url = https://github.com/log4cplus/log4cplus.git
+	ignore = dirty
