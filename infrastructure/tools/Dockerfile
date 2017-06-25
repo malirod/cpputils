@@ -14,6 +14,7 @@ RUN apt-get update
 RUN apt-get install -y git
 RUN apt-get install -y clang clang-format g++ make
 RUN apt-get install -y pylint
+RUN apt-get install -y libicu-dev
 
 RUN git clone https://github.com/malirod/boost-bin.git $BOOST_BIN
 WORKDIR $BOOST_BIN

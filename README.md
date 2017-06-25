@@ -53,6 +53,10 @@ This will allow to perform some code checks locally before posting changes to se
 
 `sudo apt-get install pylint`
 
+## Install IBM ICU lib
+
+`sudo apt-get install libicu-dev`
+
 ## Logger
 
 Project uses log4cplus logger. It's configured as the sub-module located in `thirdparty\log4cplus`. If this directory doesn't exist then `waf configure` will do required preparations.
