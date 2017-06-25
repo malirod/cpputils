@@ -2,21 +2,39 @@
 
 #pragma once
 
+#include <memory>
+#include <vector>
+
+#include <unicode/unistr.h>
+#include <unicode/sortkey.h>
+#include <unicode/utypes.h>
+
 namespace cppecho {
 namespace util {
 namespace icu_util {
 
-CollationKey* keys[MAX_LIST_LENGTH];
-UErrorCode status = U_ZERO_ERROR;
-Collator* coll = Collator::createInstance(Locale("en_US"), status);
-uint32_t i;
-if (U_SUCCESS(status)) {
-  for (i = 0; i < listSize; i++) {
-    keys[i] = coll->getCollationKey(s[i], -1);
+void DoSort() {
+
+  const std::vector<UnicodeString> strings = {
+    "Quick",
+    "fox",
+    "Moving",
+    "trucks",
+    "riddle"
+  };
+
+  std::vector<CollationKey*> keys(strings.size(), nullptr);
+
+  UErrorCode status = U_ZERO_ERROR;
+  std::unique_ptr<Collator> collator(Collator::createInstance(Locale("en_US"), status));
+  if(U_SUCCESS(status)) {
+    for(uint32_t i=0; i< strings.size(); ++i) {
+      // keys[i] = collator->getCollationKey(strings[i], -1);
+    }
+    // qsort(keys, strings.size(), sizeof(CollationKey), compareKeys);
+    // delete[] keys;
   }
-  qsort(keys, MAX_LIST_LENGTH, sizeof(CollationKey), compareKeys);
-  delete[] keys;
-  delete coll;
+
 }
 
 }  // namespace icu_util

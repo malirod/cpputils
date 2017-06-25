@@ -114,6 +114,8 @@ def configure(ctx):
         ctx.env.INCLUDES += ['src', 'thirdparty/gtest', boost_include_path]
         ctx.env.STLIB += ['log4cplus', 'boost_program_options',
                           'boost_system', 'boost_thread', 'boost_context']
+        #setup icu lib
+        ctx.env.CXXFLAGS += ['`pkg-config --libs --cflags icu-uc icu-io`']
         # Setup required components (submodules)
         setup_submodules(ctx)
 
