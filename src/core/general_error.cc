@@ -1,4 +1,4 @@
-// Copyright [2016] <Malinovsky Rodion>
+// Copyright [2017] <Malinovsky Rodion>
 
 #include "core/general_error.h"
 #include "util/enum_util.h"

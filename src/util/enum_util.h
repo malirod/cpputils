@@ -1,4 +1,4 @@
-// Copyright [2016] <Malinovsky Rodion>
+// Copyright [2017] <Malinovsky Rodion>
 
 #pragma once
 
@@ -23,10 +23,9 @@ constexpr inline auto ToIntegral(E e) noexcept ->
 }
 
 template <typename E, typename T>
-constexpr inline typename std::enable_if<std::is_enum<E>::value &&
-                                             std::is_integral<T>::value,
-                                         E>::type
-FromIntegral(T value) noexcept {
+constexpr inline typename std::
+    enable_if<std::is_enum<E>::value && std::is_integral<T>::value, E>::type
+    FromIntegral(T value) noexcept {
   return static_cast<E>(value);
 }
 
