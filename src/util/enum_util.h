@@ -29,6 +29,16 @@ constexpr inline typename std::
   return static_cast<E>(value);
 }
 
+  /*
+   * Reason for warning ignore.
+   * Recently introduced warning in clang (-Wundefined-var-template)
+   * prevents main idea of enum util: split enum utils and filling Storage
+   * in enum's cpp file via template specialization.
+   */
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+
 template <typename T>
 struct Storage {
   template <typename... ArgTypes>
@@ -114,6 +124,8 @@ const char* EnumToChars(const T& e) {
   }
   return "";
 }
+
+#pragma clang diagnostic pop
 
 template <typename T>
 std::string EnumToString(const T& e) {
