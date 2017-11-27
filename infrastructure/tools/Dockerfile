@@ -12,8 +12,13 @@ WORKDIR $HOME
 
 RUN apt-get update
 RUN apt-get install -y git
-RUN apt-get install -y clang clang-format g++ make
+RUN apt-get install -y clang-5.0 clang-format-5.0 g++ make
 RUN apt-get install -y pylint
+
+RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-5.0 50
+RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-5.0 50
+RUN update-alternatives --install /usr/bin/llvm-symbolizer llvm-symbolizer /usr/bin/llvm-symbolizer-5.0 50
+RUN update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-5.0 50
 
 RUN git clone https://github.com/malirod/boost-bin.git $BOOST_BIN
 WORKDIR $BOOST_BIN
