@@ -1,4 +1,4 @@
-// Copyright [2016] <Malinovsky Rodion>
+// Copyright [2017] <Malinovsky Rodion>
 
 #include "util/string_fmt.h"
 #include "gtest/gtest.h"

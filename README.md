@@ -1,11 +1,11 @@
 [![Build Status](https://travis-ci.org/malirod/cpputils.svg?branch=master)](https://travis-ci.org/malirod/cpputils)
 
 # cpputils
-Dirrerent utils \ helpers in c++
+Dirrerent utils \ helpers in C++11. Boost is used.
 
 ## Platform
 
-Ubuntu 16.04: Clang 3.8, GCC 5.4
+Ubuntu 16.04: Clang 5.0, GCC 5.4
 
 C++11 Standard is used.
 

@@ -1,4 +1,4 @@
-// Copyright [2016] <Malinovsky Rodion>
+// Copyright [2017] <Malinovsky Rodion>
 
 #include "util/singleton.h"
 #include "gmock/gmock.h"
@@ -89,8 +89,9 @@ TEST(TestSingleton, SingletonAccessorWithMockClass) {
 
   MockISchedulerFoo fake_scheduler_foo;
 
-  EXPECT_CALL(fake_scheduler_foo, GetId())
-      .WillRepeatedly(Invoke([&fake_id]() { return fake_id; }));
+  EXPECT_CALL(fake_scheduler_foo, GetId()).WillRepeatedly(Invoke([&fake_id]() {
+    return fake_id;
+  }));
   EXPECT_CALL(fake_scheduler_foo, SetId(_))
       .WillRepeatedly(Invoke([&fake_id](int id) { fake_id = id; }));
 

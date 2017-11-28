@@ -41,7 +41,7 @@ echo -e "$TEXT_INFO" "Checking cpp style with clang-format" "$TEXT_DEFAULT"
 # set path to clang-format binary
 CLANG_FORMAT=$(command -v clang-format)
 # Verify clang-format. Note: 3.6 and 3.7 produces different formatting for the same config
-CLANG_FORMAT_REQUIRED_VERSION=3.
+CLANG_FORMAT_REQUIRED_VERSION=5.
 CLANG_FORMAT_CURRENT_VERSION=$($CLANG_FORMAT -version)
 
 # remove any older patches from previous commits. Set to true or false.

@@ -1,4 +1,4 @@
-// Copyright [2016] <Malinovsky Rodion>
+// Copyright [2017] <Malinovsky Rodion>
 
 #pragma once
 
@@ -23,12 +23,21 @@ constexpr inline auto ToIntegral(E e) noexcept ->
 }
 
 template <typename E, typename T>
-constexpr inline typename std::enable_if<std::is_enum<E>::value &&
-                                             std::is_integral<T>::value,
-                                         E>::type
-FromIntegral(T value) noexcept {
+constexpr inline typename std::
+    enable_if<std::is_enum<E>::value && std::is_integral<T>::value, E>::type
+    FromIntegral(T value) noexcept {
   return static_cast<E>(value);
 }
+
+  /*
+   * Reason for warning ignore.
+   * Recently introduced warning in clang (-Wundefined-var-template)
+   * prevents main idea of enum util: split enum utils and filling Storage
+   * in enum's cpp file via template specialization.
+   */
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundefined-var-template"
 
 template <typename T>
 struct Storage {
@@ -115,6 +124,8 @@ const char* EnumToChars(const T& e) {
   }
   return "";
 }
+
+#pragma clang diagnostic pop
 
 template <typename T>
 std::string EnumToString(const T& e) {
