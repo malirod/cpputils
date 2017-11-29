@@ -11,7 +11,7 @@ branches:
     - develop
 
 before_install:
-  - docker build -t travis-build -f infrastructure/tools/Dockerfile .
+  - docker build -t travis-build -f infrastructure/tools/Dockerfile-travis .
 
 script:
   # Common style check
