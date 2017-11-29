@@ -103,3 +103,20 @@ ASAN_OPTIONS="detect_leaks=1" ./build/debug/testrunner
 Run from project root. It's expected that config is located in the project root.
 
 `build/debug/testrunner`
+
+## Integration
+
+`Dockerfile` creates build environment from the scratch. It should be built manually and pushed to DockerHub
+
+`Dockerfile-travis` is used by Travis. It's based on pre-built image from `Dockerfile` on DockerHub
+
+### Create docker image
+
+Steps to prepare image for Travis
+
+```
+docker build -t travis-build-cpputils -f infrastructure/tools/Dockerfile .
+docker login
+docker tag travis-build-cpputils $DOCKER_ID_USER/dev-cpputils
+docker push $DOCKER_ID_USER/dev-cpputils
+```
