@@ -13,10 +13,10 @@ CPP_FLAGS = [
     '-I/usr/local/include',
     '-Isrc',
     '-Itest',
-    '-Ithirdparty/gtest',
+    '-Ithirdparty/googletest/googlemock/include',
     '-I.',
-    '-I${BOOST_HOME}/include',
-    '-Ithirdparty/log4cplus/build-clang/include']
+    '-I${BOOST_ROOT}/include',
+    '-Ithirdparty/log4cplus/include']
 
 
 SOURCE_EXTENSIONS = ['.cpp', '.cxx', '.cc', '.c', '.m', '.mm']
