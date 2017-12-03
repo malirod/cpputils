@@ -1,4 +1,20 @@
 cmake_minimum_required(VERSION 3.9)
+
+# Prefer Clang compiler
+if (NOT CMAKE_CXX_COMPILER AND NOT CMAKE_C_COMPILER AND NOT DEFINED ENV{CXX} AND NOT DEFINED ENV{CC} )
+    message("Compiler is not set explicitly. Using clang++")
+    set(CMAKE_CXX_COMPILER "clang++")
+    set(CMAKE_C_COMPILER "clang")
+endif()
+
+# Configure CCache if available
+find_program(CCACHE_FOUND ccache)
+if(CCACHE_FOUND)
+    message("Ccache found. Will be use used.")
+    set(CMAKE_C_COMPILER_LAUNCHER ccache)
+    set(CMAKE_CXX_COMPILER_LAUNCHER ccache)
+endif(CCACHE_FOUND)
+
 project(cpputils VERSION 1.0 LANGUAGES CXX)
 
 # Must use GNUInstallDirs to install libraries into correct
@@ -11,8 +27,8 @@ set(THIRDPARTY_PATH "thirdparty/")
 
 include(CTest)
 
-set(Boost_USE_STATIC_LIBS        ON) # only find static libs
-set(Boost_USE_MULTITHREADED      ON)
+set(Boost_USE_STATIC_LIBS ON) # only find static libs
+set(Boost_USE_MULTITHREADED ON)
 find_package(Boost 1.62 REQUIRED)
 
 set(SRC_LIST
@@ -59,6 +75,8 @@ target_include_directories(testrunner
     "${PROJECT_BINARY_DIR}/${THIRDPARTY_PATH}/log4cplus/include"
     )
 target_link_libraries(testrunner PRIVATE gtest gmock_main log4cplusS)
+
+
 
 add_test(NAME all COMMAND testrunner)
 
