@@ -2,3 +2,6 @@
 	path = thirdparty/log4cplus
 	url = https://github.com/log4cplus/log4cplus.git
 	ignore = dirty
+[submodule "thirdparty/googletest"]
+	path = thirdparty/googletest
+	url = https://github.com/google/googletest

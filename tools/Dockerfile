@@ -4,7 +4,7 @@ ENV HOME /root
 ENV PROJECT_ROOT $HOME/project
 ENV BOOST_BIN $HOME/libs/boost-bin
 ENV BOOST_BRANCH boost-1.62-ubuntu-16.04-x64-clang-5.0-release-c++11-static-multi
-ENV BOOST_HOME $BOOST_BIN/build
+ENV BOOST_ROOT $BOOST_BIN/build
 
 ADD . $PROJECT_ROOT
 
@@ -19,6 +19,8 @@ RUN apt-get update
 RUN apt-get install -y git
 RUN apt-get install -y clang-5.0 clang-format-5.0 g++ make
 RUN apt-get install -y pylint
+# Install CMake
+RUN wget https://cmake.org/files/v3.10/cmake-3.10.0.tar.gz && tar -xzf cmake-3.10.0.tar.gz && cd cmake-3.10.0 && ./bootstrap && make -j$(nproc) && make install
 
 RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-5.0 50
 RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-5.0 50
@@ -31,9 +33,14 @@ RUN git fetch
 RUN git checkout ${BOOST_BRANCH}
 RUN tar -xzf build.tar.gz
 
-WORKDIR $PROJECT_ROOT
-
 # Preconfigure thirdparties with Clang
-RUN ./waf configure
+WORKDIR $PROJECT_ROOT
+RUN mkdir build-clang-debug && cd build-clang-debug && cmake .. && make -j$(nproc)
+WORKDIR $PROJECT_ROOT
+RUN mkdir build-clang-release && cd build-clang-release && cmake -DCMAKE_BUILD_TYPE=Release .. && make -j$(nproc)
+
 # Preconfigure thirdparties with Gcc
-RUN ./waf configure --check-cxx-compiler=g++
+WORKDIR $PROJECT_ROOT
+RUN mkdir build-gcc-debug && cd build-gcc-debug && cmake -DCMAKE_CXX_COMPILER=g++ .. && make -j$(nproc)
+WORKDIR $PROJECT_ROOT
+RUN mkdir build-gcc-release && cd build-gcc-release && cmake -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=Release .. && make -j$(nproc)

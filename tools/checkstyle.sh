@@ -15,7 +15,7 @@ else
   exit 1
 fi
 
-GIT_DIFF_IGNORE_LIST=":!infrastructure/tools/cpplint/* :!infrastructure/tools/cpplint/* :!thirdparty/*"
+GIT_DIFF_IGNORE_LIST=":!tools/cpplint/* :!tools/cpplint/* :!thirdparty/*"
 
 ##################################################################
 ### Check for odd whitespace
@@ -135,7 +135,7 @@ echo -e "$TEXT_INFO" "PASSED" "$TEXT_DEFAULT"
 echo -e "$TEXT_INFO" "Checking cpp style with cpplint" "$TEXT_DEFAULT"
 
 if [ -n "$CPP_FILES" ]; then
-    python infrastructure/tools/cpplint/cpplint.py $CPP_FILES
+    python tools/cpplint/cpplint.py $CPP_FILES
     if [ "$?" -ne "0" ]; then
         echo -e "$TEXT_ERROR" "Cpplint reports about issues in cpp files" "$TEXT_DEFAULT"
         exit 3
@@ -151,7 +151,7 @@ echo -e "$TEXT_INFO" "PASSED" "$TEXT_DEFAULT"
 echo -e "$TEXT_INFO" "Checking cpp code with cppcheck" "$TEXT_DEFAULT"
 
 if [ -n "$CPP_FILES" ]; then
-    infrastructure/tools/cppcheck/cppcheck -j $(nproc) --error-exitcode=1 --std=c++11 --std=posix --platform=unix64 --enable=warning,style,performance,portability,information,missingInclude --template='{id}:{file}:{line} {message}' --suppressions-list=infrastructure/tools/cppcheck/suppressions --inline-suppr --inconclusive -Isrc $CPP_FILES
+    tools/cppcheck/cppcheck -j $(nproc) --error-exitcode=1 --std=c++11 --std=posix --platform=unix64 --enable=warning,style,performance,portability,information,missingInclude --template='{id}:{file}:{line} {message}' --suppressions-list=tools/cppcheck/suppressions --inline-suppr --inconclusive -Isrc $CPP_FILES
 
     if [ "$?" -ne "0" ]; then
         echo -e "$TEXT_ERROR" "Cppcheck reports about issues in cpp files" "$TEXT_DEFAULT"

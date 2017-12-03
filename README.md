@@ -11,6 +11,12 @@ C++11 Standard is used.
 
 ## Setup
 
+### Initial setup (post clone)
+
+Get sub-modules with the following command
+
+`git submodule update --init --recursive`
+
 ### Install Boost
 
 #### Use pre-build Boost lib
@@ -39,13 +45,13 @@ Go the unzipped directory and run commands
 #### Set environment variable
 Set env pointing to the boost install dir (in ~/.profile or ~/.bashrc)
 
-`export BOOST_HOME=~/libs/boost_1_62_0/build`
+`export BOOST_ROOT=~/libs/boost_1_62_0/build`
 
 Restart terminal, or reload config with `source ~/.profile` (`source ~/.bashrc`)
 
 ## Setup git hook
 
-Run `python infrastructure/tools/install_hooks.py`
+Run `python tools/install_hooks.py`
 
 This will allow to perform some code checks locally before posting changes to server.
 
@@ -55,48 +61,27 @@ This will allow to perform some code checks locally before posting changes to se
 
 ## Logger
 
-Project uses log4cplus logger. It's configured as the sub-module located in `thirdparty\log4cplus`. If this directory doesn't exist then `waf configure` will do required preparations.
+Project uses log4cplus logger. It's configured as the sub-module located in `thirdparty\log4cplus`.
 
 ## Build
 
 #### Build commands
-- `build`: debug build
-- `build_all`: release and debug build
-- `build_debug`: debug build
-- `build_release`: release build
 
-Sample. In the project root call
+By default used clang compiler and debug mode.
 
-`./waf configure build_all`
+Run in project root to build debug version with clang
 
-To build specific target use `--targets` option during configuration
+`mkdir build-clang-debug && cd build-clang-debug && cmake .. && make -j$(nproc)`
 
-Sample
+To build release version with gcc run the follwing command
 
-`./waf configure --targets=testrunner`
-
-List all available targets with `./waf list`
-
-Clang is used by default. Fallback to GCC if Clang not found. To use GCC call
-
-`CXX=g++ ./waf configure`
+`RUN mkdir build-gcc-release && cd build-gcc-release && cmake -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=Release .. && make -j$(nproc)`
 
 ### Build with sanitizers (clang)
 
-Use the following option for configuration `--sanitize-with`. Applicable to debug build only. Known values are:
+Use the following option for configuration. Applicable to debug build only. Known values are:
 
-- `asan`: address
-- `tsan`: thread
-- `msan`: memory
-- `ubsan`: undefined behaviour
-
-Example
-
-```
-./waf configure --sanitize-with=asan
-./waf build
-ASAN_OPTIONS="detect_leaks=1" ./build/debug/testrunner
-```
+TBD
 
 ## Run
 
@@ -115,7 +100,7 @@ Run from project root. It's expected that config is located in the project root.
 Steps to prepare image for Travis
 
 ```
-docker build -t travis-build-cpputils -f infrastructure/tools/Dockerfile .
+docker build -t travis-build-cpputils -f tools/Dockerfile .
 docker login
 docker tag travis-build-cpputils $DOCKER_ID_USER/dev-cpputils
 docker push $DOCKER_ID_USER/dev-cpputils
