@@ -79,9 +79,7 @@ To build release version with gcc run the follwing command
 
 ### Build with sanitizers (clang)
 
-Use the following option for configuration. Applicable to debug build only. Known values are:
-
-TBD
+You can enable sanitizers with `SANITIZE_ADDRESS`, `SANITIZE_MEMORY`, `SANITIZE_THREAD` or `SANITIZE_UNDEFINED` options in your CMake configuration. You can do this by passing e.g. `-DSANITIZE_ADDRESS=On` in your command line.
 
 ## Run
 

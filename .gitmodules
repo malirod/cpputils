@@ -5,3 +5,6 @@
 [submodule "thirdparty/googletest"]
 	path = thirdparty/googletest
 	url = https://github.com/google/googletest
+[submodule "thirdparty/sanitizers-cmake"]
+	path = thirdparty/sanitizers-cmake
+	url = git://github.com/arsenm/sanitizers-cmake.git

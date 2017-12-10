@@ -31,6 +31,11 @@ include(GNUInstallDirs)
 
 set(CMAKE_CXX_STANDARD 11)
 
+# Add possibility to sinitize code
+#set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_PATH}/thirdparty/sanitizers-cmake/cmake" ${CMAKE_MODULE_PATH})
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/thirdparty/sanitizers-cmake/cmake/")
+find_package(Sanitizers REQUIRED)
+
 include(CTest)
 
 set(Boost_USE_STATIC_LIBS ON) # only find static libs
@@ -61,6 +66,8 @@ add_executable(testrunner
     "test/util/singleton_test.cc"
     "test/util/static_string_test.cc"
     "test/util/string_fmt_test.cc")
+
+add_sanitizers(testrunner)
 
 add_subdirectory(thirdparty)
 
