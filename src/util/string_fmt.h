@@ -25,8 +25,6 @@ class StringFmt {
 
   operator std::string() const;
 
-  operator const char*() const;
-
  private:
   boost::format fmt_;
 };
@@ -60,8 +58,4 @@ std::string cppecho::util::StringFmt::format(T arg, Args... args) {
 
 inline cppecho::util::StringFmt::operator std::string() const {
   return fmt_.str();
-}
-
-inline cppecho::util::StringFmt::operator const char*() const {
-  return fmt_.str().c_str();
 }

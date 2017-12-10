@@ -97,11 +97,22 @@ Run from project root. It's expected that config is located in the project root.
 
 ### Create docker image
 
+**Dockerfile-dev-base**: base image, which contains basic env setup (compiler, build tools)
+
+`docker build -t cpp-dev-base -f tools/Dockerfile-dev-base .`
+
+**Dockerfile-initial**: initial project image, which contains pre-build sources. Based on **Dockerfile-dev-base**
+
+`docker build -t travis-build-cpputils -f tools/Dockerfile-initial .`
+
 Steps to prepare image for Travis
 
 ```
-docker build -t travis-build-cpputils -f tools/Dockerfile .
+docker build -t cpp-dev-base -f tools/Dockerfile-dev-base .
+docker build -t travis-build-cpputils -f tools/Dockerfile-initial .
 docker login
+docker tag cpp-dev-base $DOCKER_ID_USER/cpp-dev-base
 docker tag travis-build-cpputils $DOCKER_ID_USER/dev-cpputils
+docker push $DOCKER_ID_USER/cpp-dev-base
 docker push $DOCKER_ID_USER/dev-cpputils
 ```

@@ -15,6 +15,14 @@ if(CCACHE_FOUND)
     set(CMAKE_CXX_COMPILER_LAUNCHER ccache)
 endif(CCACHE_FOUND)
 
+# Set a default build type if none was specified
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+    message("Setting build type to 'Debug' as none was specified.")
+    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build." FORCE)
+    # Set the possible values of build type for cmake-gui
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
+
 project(cpputils VERSION 1.0 LANGUAGES CXX)
 
 # Must use GNUInstallDirs to install libraries into correct
@@ -22,8 +30,6 @@ project(cpputils VERSION 1.0 LANGUAGES CXX)
 include(GNUInstallDirs)
 
 set(CMAKE_CXX_STANDARD 11)
-
-set(THIRDPARTY_PATH "thirdparty/")
 
 include(CTest)
 
@@ -56,27 +62,15 @@ add_executable(testrunner
     "test/util/static_string_test.cc"
     "test/util/string_fmt_test.cc")
 
-message("Processing GTest")
-add_subdirectory("${THIRDPARTY_PATH}/googletest")
-
-message("Processing Log4cplus")
-# Add options for lib to exlude not required parts
-set(BUILD_SHARED_LIBS FALSE CACHE BOOL "" FORCE)
-set(LOG4CPLUS_BUILD_TESTING OFF CACHE BOOL "" FORCE)
-set(LOG4CPLUS_BUILD_LOGGINGSERVER OFF CACHE BOOL "" FORCE)
-add_subdirectory("${THIRDPARTY_PATH}/log4cplus")
+add_subdirectory(thirdparty)
 
 target_include_directories(testrunner
     PRIVATE
     src
     test
-    "${Boost_INCLUDE_DIRS}"
-    "${THIRDPARTY_PATH}/log4cplus/include"
-    "${PROJECT_BINARY_DIR}/${THIRDPARTY_PATH}/log4cplus/include"
-    )
+    "${Boost_INCLUDE_DIRS}")
+
 target_link_libraries(testrunner PRIVATE gtest gmock_main log4cplusS)
-
-
 
 add_test(NAME all COMMAND testrunner)
 
