@@ -32,9 +32,15 @@ include(GNUInstallDirs)
 set(CMAKE_CXX_STANDARD 11)
 
 # Add possibility to sinitize code
-#set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_PATH}/thirdparty/sanitizers-cmake/cmake" ${CMAKE_MODULE_PATH})
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/thirdparty/sanitizers-cmake/cmake/")
 find_package(Sanitizers REQUIRED)
+
+
+# Add possibility to get code coverage
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/thirdparty/CMake-codecov/cmake")
+message("1.1 LCOV_REMOVE_PATTERNS: " ${LCOV_REMOVE_PATTERNS})
+find_package(codecov REQUIRED)
+list(APPEND LCOV_REMOVE_PATTERNS "'${PROJECT_SOURCE_DIR}/thirdparty/*'")
 
 include(CTest)
 
@@ -68,6 +74,8 @@ add_executable(testrunner
     "test/util/string_fmt_test.cc")
 
 add_sanitizers(testrunner)
+
+add_coverage(testrunner)
 
 add_subdirectory(thirdparty)
 

@@ -8,3 +8,6 @@
 [submodule "thirdparty/sanitizers-cmake"]
 	path = thirdparty/sanitizers-cmake
 	url = git://github.com/arsenm/sanitizers-cmake.git
+[submodule "thirdparty/CMake-codecov"]
+	path = thirdparty/CMake-codecov
+	url = git://github.com/RWTH-HPC/CMake-codecov.git
