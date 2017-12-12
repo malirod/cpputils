@@ -14,6 +14,7 @@ CPP_FLAGS = [
     '-Isrc',
     '-Itest',
     '-Ithirdparty/googletest/googlemock/include',
+    '-Ithirdparty/googletest/googletest/include',
     '-I.',
     '-I${BOOST_ROOT}/include',
     '-Ithirdparty/log4cplus/include']

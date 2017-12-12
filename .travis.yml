@@ -17,8 +17,8 @@ script:
   # Common style check
   - docker run travis-build tools/checkstyle.sh $TRAVIS_COMMIT_RANGE
   # Clang, build debug and release and run tests for debug build
-  - docker run travis-build /bin/bash -c "cd build-clang-debug && cmake .. && make -j$(nproc) && ctest --output-on-failure "
-  - docker run travis-build /bin/bash -c "cd build-clang-release && cmake .. && make -j$(nproc) && ctest --output-on-failure "
+  - docker run travis-build /bin/bash -c "cd build-clang-debug &&  ninja && ctest --output-on-failure "
+  - docker run travis-build /bin/bash -c "cd build-clang-release && ninja && ctest --output-on-failure "
   # GCC, build debug and release and run tests for debug
-  - docker run travis-build /bin/bash -c "cd build-gcc-debug && cmake .. && make -j$(nproc) && ctest --output-on-failure "
-  - docker run travis-build /bin/bash -c "cd build-gcc-release && cmake .. && make -j$(nproc) && ctest --output-on-failure "
+  - docker run travis-build /bin/bash -c "cd build-gcc-debug && ninja && ctest --output-on-failure "
+  - docker run travis-build /bin/bash -c "cd build-gcc-release && ninja && ctest --output-on-failure "
