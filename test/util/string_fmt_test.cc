@@ -3,7 +3,7 @@
 #include "util/string_fmt.h"
 #include "gtest/gtest.h"
 
-using cppecho::util::StringFmt;
+using rms::util::StringFmt;
 
 TEST(TestStringFmt, BasicUsage) {
   const std::string expected = "Number #17, #18";

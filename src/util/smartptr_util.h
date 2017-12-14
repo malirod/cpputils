@@ -15,7 +15,7 @@
 #include <type_traits>
 #include <utility>
 
-namespace cppecho {
+namespace rms {
 namespace util {
 
 template <class T>
@@ -48,4 +48,4 @@ template <class T, class... Args>
 typename _Unique_if<T>::_Known_bound make_unique(Args&&...) = delete;
 
 }  // namespace util
-}  // namespace cppecho
+}  // namespace rms

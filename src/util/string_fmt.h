@@ -6,7 +6,7 @@
 #include <utility>
 #include "boost/format.hpp"
 
-namespace cppecho {
+namespace rms {
 namespace util {
 
 class StringFmt {
@@ -30,32 +30,31 @@ class StringFmt {
 };
 
 }  // namespace util
-}  // namespace cppecho
+}  // namespace rms
 
 template <typename T>
-inline cppecho::util::StringFmt::StringFmt(T&& fmt)
-    : fmt_(std::forward<T>(fmt)) {}
+inline rms::util::StringFmt::StringFmt(T&& fmt) : fmt_(std::forward<T>(fmt)) {}
 
 template <typename T>
-cppecho::util::StringFmt& cppecho::util::StringFmt::operator<<(const T& arg) {
+rms::util::StringFmt& rms::util::StringFmt::operator<<(const T& arg) {
   fmt_ % arg;
   return *this;
 }
 
 template <typename T>
-std::string cppecho::util::StringFmt::format(T arg) {
+std::string rms::util::StringFmt::format(T arg) {
   *this << arg;
 
   return fmt_.str();
 }
 
 template <typename T, typename... Args>
-std::string cppecho::util::StringFmt::format(T arg, Args... args) {
+std::string rms::util::StringFmt::format(T arg, Args... args) {
   *this << arg;
 
   return format(args...);
 }
 
-inline cppecho::util::StringFmt::operator std::string() const {
+inline rms::util::StringFmt::operator std::string() const {
   return fmt_.str();
 }

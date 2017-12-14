@@ -68,7 +68,7 @@ class Bar {
     auto result = UniqueFooType();
     result.reserve(size);
     for (std::size_t i = 0u; i < size; ++i) {
-      auto item = cppecho::util::make_unique<Foo>();
+      auto item = rms::util::make_unique<Foo>();
       item->SetData(data);
       result.emplace_back(std::move(item));
     }

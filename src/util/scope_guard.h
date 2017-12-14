@@ -5,7 +5,7 @@
 #include <memory>
 #include <utility>
 
-namespace cppecho {
+namespace rms {
 namespace util {
 
 template <typename CleanupAction>
@@ -28,4 +28,4 @@ ScopeGuard<CleanupAction> MakeScopeGuard(CleanupAction cleanup_action) {
 }
 
 }  // namespace util
-}  // namespace cppecho
+}  // namespace rms

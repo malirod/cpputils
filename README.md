@@ -93,15 +93,14 @@ To enable coverage support in general, you have to enable `ENABLE_COVERAGE` opti
 
 If coverage is supported by your compiler, the specified targets will be build with coverage support. If your compiler has no coverage capabilities (I asume intel compiler doesn't) you'll get a warning but CMake will continue processing and coverage will simply just be ignored.
 
-Collect coverage in Debug mode. Tested with gcc compiler. Clang known to be supported too.
+Collect coverage in Debug mode. Tested with gcc 5.0 and clang 5.0 compiler.
 
 ### Sample commands to get coverage html report
 
 ```
-CXX=g++ cmake -DENABLE_COVERAGE=On -DCMAKE_BUILD_TYPE=Release ..
+CXX=g++ cmake -DENABLE_COVERAGE=On -DCMAKE_BUILD_TYPE=Debug ..
 make -j$(nproc)
 make test
-make testrunner-geninfo
 make testrunner-genhtml
 xdg-open lcov/html/testrunner/index.html
 ```

@@ -18,13 +18,13 @@ enum class EnumCustomInit {
 
 }  // namespace
 
-using cppecho::util::enum_util::EnumFromStream;
-using cppecho::util::enum_util::EnumStrings;
-using cppecho::util::enum_util::EnumToChars;
-using cppecho::util::enum_util::EnumToStream;
-using cppecho::util::enum_util::EnumToString;
-using cppecho::util::enum_util::FromIntegral;
-using cppecho::util::enum_util::ToIntegral;
+using rms::util::enum_util::EnumFromStream;
+using rms::util::enum_util::EnumStrings;
+using rms::util::enum_util::EnumToChars;
+using rms::util::enum_util::EnumToStream;
+using rms::util::enum_util::EnumToString;
+using rms::util::enum_util::FromIntegral;
+using rms::util::enum_util::ToIntegral;
 
 template <>
 EnumStrings<EnumDefaultInit>::DataType EnumStrings<EnumDefaultInit>::data = {

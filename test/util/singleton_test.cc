@@ -36,27 +36,25 @@ class MockISchedulerFoo : public ISchedulerFoo {
   MOCK_METHOD1(SetId, void(int));
 };
 
-using SchedulerFooAccessor = cppecho::util::SingleAccessor<ISchedulerFoo>;
+using SchedulerFooAccessor = rms::util::SingleAccessor<ISchedulerFoo>;
 SchedulerFooAccessor& GetSchedulerFooAccessorInstance() {
-  return cppecho::util::single<SchedulerFooAccessor>();
+  return rms::util::single<SchedulerFooAccessor>();
 }
 
 }  // namespace
 
 TEST(TestSingleton, DifferentSingletonsOfTheSameType) {
   {
-    auto& foo = cppecho::util::single<SchedulerFoo>();
+    auto& foo = rms::util::single<SchedulerFoo>();
     ASSERT_EQ(foo.GetId(), 0);
     foo.SetId(5);
-    auto& custom_foo =
-        cppecho::util::single<SchedulerFoo, CustomSchedulerFooTag>();
+    auto& custom_foo = rms::util::single<SchedulerFoo, CustomSchedulerFooTag>();
     ASSERT_EQ(custom_foo.GetId(), 0);
     custom_foo.SetId(7);
   }
-  auto& foo = cppecho::util::single<SchedulerFoo>();
+  auto& foo = rms::util::single<SchedulerFoo>();
   ASSERT_EQ(foo.GetId(), 5);
-  auto& custom_foo =
-      cppecho::util::single<SchedulerFoo, CustomSchedulerFooTag>();
+  auto& custom_foo = rms::util::single<SchedulerFoo, CustomSchedulerFooTag>();
   ASSERT_EQ(custom_foo.GetId(), 7);
 }
 
@@ -72,7 +70,7 @@ TEST(TestSingleton, SingletonAccessorWithRealClass) {
   ASSERT_EQ(scheduler_foo.GetId(), 0);
   scheduler_foo.SetId(5);
 
-  auto& scheduler_foo_new = cppecho::util::single<SchedulerFoo>();
+  auto& scheduler_foo_new = rms::util::single<SchedulerFoo>();
   ASSERT_EQ(scheduler_foo_new.GetId(), 5);
 
   single_accessor.Detach();

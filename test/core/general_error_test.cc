@@ -4,9 +4,9 @@
 #include "gtest/gtest.h"
 #include "util/enum_util.h"
 
-using cppecho::core::GeneralError;
-using cppecho::util::enum_util::EnumToString;
-using cppecho::util::enum_util::ToIntegral;
+using rms::core::GeneralError;
+using rms::util::enum_util::EnumToString;
+using rms::util::enum_util::ToIntegral;
 
 TEST(TestGeneralErrorEnum, EnumToString) {
   EXPECT_EQ("Success", EnumToString(GeneralError::Success));
@@ -21,4 +21,13 @@ TEST(TestGeneralErrorEnum, ToIntegral) {
   EXPECT_EQ(1, ToIntegral(GeneralError::InternalError));
   EXPECT_EQ(2, ToIntegral(GeneralError::WrongCommandLine));
   EXPECT_EQ(3, ToIntegral(GeneralError::StartupFailed));
+}
+
+TEST(TestGeneralErrorEnum, Makers) {
+  EXPECT_TRUE(make_error_condition(GeneralError::InternalError));
+  EXPECT_TRUE(make_error_code(GeneralError::InternalError));
+  EXPECT_EQ("Internal error",
+            make_error_code(GeneralError::InternalError).message());
+  EXPECT_EQ("GenenalError",
+            make_error_code(GeneralError::InternalError).category().name());
 }

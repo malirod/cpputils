@@ -4,7 +4,7 @@
 
 #include <cassert>
 
-namespace cppecho {
+namespace rms {
 namespace util {
 
 template <typename T, typename Tag = T>
@@ -57,4 +57,4 @@ bool SingleAccessor<T, Tag>::GetIsAttached() const {
 }
 
 }  // namespace util
-}  // namespace cppecho
+}  // namespace rms
