@@ -5,7 +5,7 @@
 #include <cstddef>
 #include <string>
 
-namespace cppecho {
+namespace rms {
 namespace util {
 
 class StaticString {
@@ -63,4 +63,4 @@ class StaticString {
 };
 
 }  // namespace util
-}  // namespace cppecho
+}  // namespace rms

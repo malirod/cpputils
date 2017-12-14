@@ -12,7 +12,7 @@
 #include <string>
 #include <type_traits>
 
-namespace cppecho {
+namespace rms {
 namespace util {
 namespace enum_util {
 
@@ -142,4 +142,4 @@ struct EnumClassHash {
 
 }  // namespace enum_util
 }  // namespace util
-}  // namespace cppecho
+}  // namespace rms

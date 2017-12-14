@@ -4,10 +4,10 @@
 #include "gtest/gtest.h"
 
 TEST(TestStaticString, BasicUsage) {
-  constexpr cppecho::util::StaticString foo("foo");
-  constexpr cppecho::util::StaticString foo_copy("foo");
-  constexpr cppecho::util::StaticString fooo("fooo");
-  constexpr cppecho::util::StaticString bar("bar");
+  constexpr rms::util::StaticString foo("foo");
+  constexpr rms::util::StaticString foo_copy("foo");
+  constexpr rms::util::StaticString fooo("fooo");
+  constexpr rms::util::StaticString bar("bar");
 
   static_assert(foo.Size() == 3, "Invalid size of StaticString");
   static_assert(foo[0] == 'f', "Invalid data of StaticString");
@@ -24,13 +24,13 @@ TEST(TestStaticString, BasicUsage) {
 }
 
 TEST(TestStaticString, Substring) {
-  constexpr cppecho::util::StaticString foo("foo");
-  constexpr cppecho::util::StaticString bar("bar");
-  constexpr cppecho::util::StaticString obar("obar");
-  constexpr cppecho::util::StaticString foobar("foobar");
-  constexpr cppecho::util::StaticString foo_substring(foobar, 0, 3);
-  constexpr cppecho::util::StaticString bar_substring(foobar, 3, 3);
-  constexpr cppecho::util::StaticString obar_substring(foobar, 2);
+  constexpr rms::util::StaticString foo("foo");
+  constexpr rms::util::StaticString bar("bar");
+  constexpr rms::util::StaticString obar("obar");
+  constexpr rms::util::StaticString foobar("foobar");
+  constexpr rms::util::StaticString foo_substring(foobar, 0, 3);
+  constexpr rms::util::StaticString bar_substring(foobar, 3, 3);
+  constexpr rms::util::StaticString obar_substring(foobar, 2);
 
   static_assert(foo.IsEqual(foo_substring), "Invalid data of StaticString");
   static_assert(bar.IsEqual(bar_substring), "Invalid data of StaticString");

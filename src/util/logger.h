@@ -52,9 +52,9 @@
 #include "util/string_fmt.h"
 
 #define IMPL_LOGGER_CLASS_TYPE_ log4cplus::Logger
-#define IMPL_LOGGER_NAMESPACE_ cppecho::util::logging
+#define IMPL_LOGGER_NAMESPACE_ rms::util::logging
 
-namespace cppecho {
+namespace rms {
 namespace util {
 namespace logging {
 
@@ -76,7 +76,7 @@ class LogManager {
 
 }  // namespace logging
 }  // namespace util
-}  // namespace cppecho
+}  // namespace rms
 
 #define INIT_LOGGER(log_config) \
   IMPL_LOGGER_NAMESPACE_::LogManager log_manager__(log_config)
@@ -121,16 +121,16 @@ class LogManager {
 #define LOG_AUTO_TRACE() LOG_AUTO_TRACEL(GetLogger(), LOG4CPLUS_TEXT(__func__))
 
 #define LOG_TRACEF(text, ...) \
-  LOG_TRACEL(GetLogger(), cppecho::util::StringFmt(text).format(__VA_ARGS__))
+  LOG_TRACEL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
 #define LOG_DEBUGF(text, ...) \
-  LOG_DEBUGL(GetLogger(), cppecho::util::StringFmt(text).format(__VA_ARGS__))
+  LOG_DEBUGL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
 #define LOG_INFOF(text, ...) \
-  LOG_INFOL(GetLogger(), cppecho::util::StringFmt(text).format(__VA_ARGS__))
+  LOG_INFOL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
 #define LOG_WARNF(text, ...) \
-  LOG_WARNL(GetLogger(), cppecho::util::StringFmt(text).format(__VA_ARGS__))
+  LOG_WARNL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
 #define LOG_ERRORF(text, ...) \
-  LOG_ERRORL(GetLogger(), cppecho::util::StringFmt(text).format(__VA_ARGS__))
+  LOG_ERRORL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
 #define LOG_FATALF(text, ...) \
-  LOG_FATALL(GetLogger(), cppecho::util::StringFmt(text).format(__VA_ARGS__))
+  LOG_FATALL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
 
 #endif

@@ -5,7 +5,7 @@
 #include <tuple>
 #include <type_traits>
 
-namespace cppecho {
+namespace rms {
 namespace util {
 
 template <typename T>
@@ -27,4 +27,4 @@ struct FunctionTraits<ReturnType (ClassType::*)(Args...) const> {
 };
 
 }  // namespace util
-}  // namespace cppecho
+}  // namespace rms

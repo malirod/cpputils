@@ -38,7 +38,6 @@ find_package(Sanitizers REQUIRED)
 
 # Add possibility to get code coverage
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/thirdparty/CMake-codecov/cmake")
-message("1.1 LCOV_REMOVE_PATTERNS: " ${LCOV_REMOVE_PATTERNS})
 find_package(codecov REQUIRED)
 list(APPEND LCOV_REMOVE_PATTERNS "'${PROJECT_SOURCE_DIR}/thirdparty/*'")
 
@@ -70,6 +69,7 @@ add_executable(testrunner
     "test/util/rvo_test.cc"
     "test/util/scope_guard_test.cc"
     "test/util/singleton_test.cc"
+    "test/util/smartptr_util_test.cc"
     "test/util/static_string_test.cc"
     "test/util/string_fmt_test.cc")
 
@@ -84,6 +84,8 @@ target_include_directories(testrunner
     src
     test
     "${Boost_INCLUDE_DIRS}")
+
+target_compile_options(testrunner PRIVATE -Wextra -Werror)
 
 target_link_libraries(testrunner PRIVATE gtest gmock_main log4cplusS)
 
