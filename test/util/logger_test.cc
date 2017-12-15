@@ -9,9 +9,7 @@ DECLARE_GLOBAL_GET_LOGGER("Logger.Global")
 
 namespace {
 
-std::string ReplaceString(std::string subject,
-                          const std::string& search,
-                          const std::string& replace) {
+std::string ReplaceString(std::string subject, const std::string& search, const std::string& replace) {
   std::size_t pos = 0;
   while ((pos = subject.find(search, pos)) != std::string::npos) {
     subject.replace(pos, search.length(), replace);
@@ -51,15 +49,13 @@ std::string GetLogOutput() {
   std::ifstream ifs(kLogFileName);
   // assert is better, but can't assert in no-void functions
   EXPECT_TRUE(ifs.is_open());
-  auto result = std::string(std::istreambuf_iterator<char>(ifs),
-                            std::istreambuf_iterator<char>());
+  auto result = std::string(std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>());
   return result;
 }
 
 template <typename T>
 void InitLoggerAndRunTest(T action) {
-  std::stringstream log_config(
-      ReplaceString(kLogConfigTemplate, "$FILE_NAME", kLogFileName));
+  std::stringstream log_config(ReplaceString(kLogConfigTemplate, "$FILE_NAME", kLogFileName));
   INIT_LOGGER(log_config);
   action();
   const auto error = std::remove(kLogFileName);
@@ -78,10 +74,9 @@ void OutputTestLogLines() {
 }
 
 void TestContains(const std::string& log_content, const std::string& substr) {
-  ASSERT_TRUE(log_content.find(substr) != std::string::npos)
-      << "Log doesn't contain line: " << substr << std::endl
-      << "Log content:" << std::endl
-      << log_content << std::endl;
+  ASSERT_TRUE(log_content.find(substr) != std::string::npos) << "Log doesn't contain line: " << substr << std::endl
+                                                             << "Log content:" << std::endl
+                                                             << log_content << std::endl;
 }
 
 }  // namespace
@@ -163,18 +158,12 @@ TEST(TestLogger, LogFromClassMethodWithFormat) {
     Foo::Bar bar;
     bar.OutputTestLogLinesFmt();
     const auto log_content = GetLogOutput();
-    TestContains(log_content,
-                 "[Foo.Bar][TRACE]:Trace class line. Number #17, #18");
-    TestContains(log_content,
-                 "[Foo.Bar][DEBUG]:Debug class line. Number #17, #18");
-    TestContains(log_content,
-                 "[Foo.Bar][ INFO]:Info class line. Number #17, #18");
-    TestContains(log_content,
-                 "[Foo.Bar][ WARN]:Warn class line. Number #17, #18");
-    TestContains(log_content,
-                 "[Foo.Bar][ERROR]:Error class line. Number #17, #18");
-    TestContains(log_content,
-                 "[Foo.Bar][FATAL]:Fatal class line. Number #17, #18");
+    TestContains(log_content, "[Foo.Bar][TRACE]:Trace class line. Number #17, #18");
+    TestContains(log_content, "[Foo.Bar][DEBUG]:Debug class line. Number #17, #18");
+    TestContains(log_content, "[Foo.Bar][ INFO]:Info class line. Number #17, #18");
+    TestContains(log_content, "[Foo.Bar][ WARN]:Warn class line. Number #17, #18");
+    TestContains(log_content, "[Foo.Bar][ERROR]:Error class line. Number #17, #18");
+    TestContains(log_content, "[Foo.Bar][FATAL]:Fatal class line. Number #17, #18");
   };
 
   InitLoggerAndRunTest(action);

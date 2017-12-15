@@ -27,12 +27,10 @@ using rms::util::enum_util::FromIntegral;
 using rms::util::enum_util::ToIntegral;
 
 template <>
-EnumStrings<EnumDefaultInit>::DataType EnumStrings<EnumDefaultInit>::data = {
-    "FooDef", "BarDef"};
+EnumStrings<EnumDefaultInit>::DataType EnumStrings<EnumDefaultInit>::data = {"FooDef", "BarDef"};
 
 template <>
-EnumStrings<EnumCustomInit>::DataType EnumStrings<EnumCustomInit>::data = {
-    "Dummy", "FooCustom", "BarCustom"};
+EnumStrings<EnumCustomInit>::DataType EnumStrings<EnumCustomInit>::data = {"Dummy", "FooCustom", "BarCustom"};
 
 TEST(TestEnumUtil, ToIntergal) {
   EXPECT_EQ(ToIntegral(EnumDefaultInit::Foo), 0);
@@ -50,16 +48,14 @@ TEST(TestEnumUtil, FromIntergal) {
 
 TEST(TestEnumUtil, ToStringStreamWithoutInit) {
   std::stringstream sstream;
-  sstream << EnumToStream(EnumDefaultInit::Foo) << ","
-          << EnumToStream(EnumDefaultInit::Bar);
+  sstream << EnumToStream(EnumDefaultInit::Foo) << "," << EnumToStream(EnumDefaultInit::Bar);
 
   EXPECT_STREQ("FooDef,BarDef", sstream.str().c_str());
 }
 
 TEST(TestEnumUtil, ToStringStreamWithInit) {
   std::stringstream sstream;
-  sstream << EnumToStream(EnumCustomInit::Foo) << ","
-          << EnumToStream(EnumCustomInit::Bar);
+  sstream << EnumToStream(EnumCustomInit::Foo) << "," << EnumToStream(EnumCustomInit::Bar);
 
   EXPECT_STREQ("FooCustom,BarCustom", sstream.str().c_str());
 }
@@ -80,8 +76,7 @@ TEST(TestEnumUtil, ToStringCustomInit) {
 }
 
 TEST(TestEnumUtil, ToStringForInvalidEnumItem) {
-  EXPECT_EQ(std::string("Dummy"),
-            EnumToString(FromIntegral<EnumCustomInit>(0)));
+  EXPECT_EQ(std::string("Dummy"), EnumToString(FromIntegral<EnumCustomInit>(0)));
   EXPECT_STREQ("Dummy", EnumToChars(FromIntegral<EnumCustomInit>(0)));
   EXPECT_TRUE(EnumToString(FromIntegral<EnumCustomInit>(3)).empty());
   EXPECT_STREQ("", EnumToChars(FromIntegral<EnumCustomInit>(3)));

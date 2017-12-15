@@ -23,6 +23,20 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
+# Use Gold linker if available
+if (UNIX AND NOT APPLE)
+  execute_process(COMMAND ${CMAKE_CXX_COMPILER}
+                  -fuse-ld=gold -Wl,--version
+                  ERROR_QUIET OUTPUT_VARIABLE ld_version)
+  if ("${ld_version}" MATCHES "GNU gold")
+    message("Found Gold linker, use faster linker")
+    set(CMAKE_EXE_LINKER_FLAGS
+        "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=gold")
+    set(CMAKE_SHARED_LINKER_FLAGS
+        "${CMAKE_SHARED_LINKER_FLAGS} -fuse-ld=gold")
+  endif()
+endif()
+
 project(cpputils VERSION 1.0 LANGUAGES CXX)
 
 # Must use GNUInstallDirs to install libraries into correct

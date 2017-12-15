@@ -11,14 +11,11 @@ namespace util {
 class StaticString {
  public:
   template <std::size_t N>
-  constexpr explicit StaticString(const char (&data)[N])
-      : data_(data), size_(N - 1) {
+  constexpr explicit StaticString(const char (&data)[N]) : data_(data), size_(N - 1) {
     static_assert(N > 0, "Invalid string literal! Length is zero!");
   }
 
-  constexpr StaticString(const StaticString& other,
-                         const std::size_t start_pos,
-                         const std::size_t number)
+  constexpr StaticString(const StaticString& other, const std::size_t start_pos, const std::size_t number)
       : data_(other.data_ + start_pos), size_(other.Size() - number) {}
 
   constexpr StaticString(const StaticString& other, const std::size_t start_pos)
@@ -37,9 +34,7 @@ class StaticString {
   }
 
   constexpr bool IsEqual(const StaticString& other) const {
-    return (this == &other) ||
-           ((Size() == other.Size()) &&
-            (IsStringsEqual(Data(), other.Data(), Size(), 0u)));
+    return (this == &other) || ((Size() == other.Size()) && (IsStringsEqual(Data(), other.Data(), Size(), 0u)));
   }
 
   std::string ToString() const {
@@ -51,10 +46,7 @@ class StaticString {
                                 const char* lhs,
                                 const std::size_t size,
                                 const std::size_t index) const {
-    return (*lhs == *rhs) &&
-           ((index == size - 1)
-                ? true
-                : IsStringsEqual(lhs + 1, rhs + 1, size, index + 1));
+    return (*lhs == *rhs) && ((index == size - 1) ? true : IsStringsEqual(lhs + 1, rhs + 1, size, index + 1));
   }
 
   const char* const data_;

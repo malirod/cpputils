@@ -132,3 +132,12 @@ docker tag travis-build-cpputils $DOCKER_ID_USER/dev-cpputils
 docker push $DOCKER_ID_USER/cpp-dev-base
 docker push $DOCKER_ID_USER/dev-cpputils
 ```
+### Clang static analyzer
+
+Sample command to run analyzer. By default report is stored in `/tmp/scan-build*`
+
+```
+cd build-debug
+scan-build cmake ..
+scan-build --use-analyzer=/usr/bin/clang++-5.0 make -j2
+```
