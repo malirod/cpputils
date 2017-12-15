@@ -17,15 +17,13 @@ namespace util {
 namespace enum_util {
 
 template <typename E>
-constexpr inline auto ToIntegral(E e) noexcept ->
-    typename std::underlying_type<E>::type {
+constexpr inline auto ToIntegral(E e) noexcept -> typename std::underlying_type<E>::type {
   return static_cast<typename std::underlying_type<E>::type>(e);
 }
 
 template <typename E, typename T>
-constexpr inline typename std::
-    enable_if<std::is_enum<E>::value && std::is_integral<T>::value, E>::type
-    FromIntegral(T value) noexcept {
+constexpr inline typename std::enable_if<std::is_enum<E>::value && std::is_integral<T>::value, E>::type FromIntegral(
+    T value) noexcept {
   return static_cast<E>(value);
 }
 
@@ -75,8 +73,7 @@ struct EnumConstRefHolder {
 
 // Actual enum to string conversion
 template <typename T>
-std::ostream& operator<<(std::ostream& stream,
-                         const EnumConstRefHolder<T>& data) {
+std::ostream& operator<<(std::ostream& stream, const EnumConstRefHolder<T>& data) {
   const auto index = ToIntegral(data.enum_value);
   const auto data_size = EnumStrings<T>::data.size;
   if (index >= 0 && index < data_size) {

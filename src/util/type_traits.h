@@ -21,8 +21,7 @@ struct FunctionTraits<ReturnType (ClassType::*)(Args...) const> {
   struct arg {
     // The i-th argument is equivalent to the i-th tuple element of a tuple
     // composed of those arguments.
-    typedef typename std::decay<
-        typename std::tuple_element<N, std::tuple<Args...>>::type>::type type;
+    typedef typename std::decay<typename std::tuple_element<N, std::tuple<Args...>>::type>::type type;
   };
 };
 

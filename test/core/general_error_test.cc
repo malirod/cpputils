@@ -11,8 +11,7 @@ using rms::util::enum_util::ToIntegral;
 TEST(TestGeneralErrorEnum, EnumToString) {
   EXPECT_EQ("Success", EnumToString(GeneralError::Success));
   EXPECT_EQ("Internal error", EnumToString(GeneralError::InternalError));
-  EXPECT_EQ("Wrong command line arguments",
-            EnumToString(GeneralError::WrongCommandLine));
+  EXPECT_EQ("Wrong command line arguments", EnumToString(GeneralError::WrongCommandLine));
   EXPECT_EQ("Startup has failed", EnumToString(GeneralError::StartupFailed));
 }
 
@@ -26,9 +25,7 @@ TEST(TestGeneralErrorEnum, ToIntegral) {
 TEST(TestGeneralErrorEnum, Makers) {
   EXPECT_TRUE(make_error_condition(GeneralError::InternalError));
   EXPECT_TRUE(make_error_code(GeneralError::InternalError));
-  EXPECT_EQ("Internal error",
-            make_error_code(GeneralError::InternalError).message());
-  const std::string name{
-      make_error_code(GeneralError::InternalError).category().name()};
+  EXPECT_EQ("Internal error", make_error_code(GeneralError::InternalError).message());
+  const std::string name{make_error_code(GeneralError::InternalError).category().name()};
   EXPECT_EQ("GenenalError", name);
 }

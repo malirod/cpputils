@@ -6,20 +6,15 @@
 using rms::core::GeneralError;
 
 template <>
-rms::util::enum_util::EnumStrings<GeneralError>::DataType
-    rms::util::enum_util::EnumStrings<GeneralError>::data = {
-        "Success",
-        "Internal error",
-        "Wrong command line arguments",
-        "Startup has failed"};
+rms::util::enum_util::EnumStrings<GeneralError>::DataType rms::util::enum_util::EnumStrings<GeneralError>::data = {
+    "Success", "Internal error", "Wrong command line arguments", "Startup has failed"};
 
 const std::error_category& rms::core::ErrorCategory::get() {
   static ErrorCategory instance;
   return instance;
 }
 
-std::error_condition rms::core::make_error_condition(
-    GeneralError error) noexcept {
+std::error_condition rms::core::make_error_condition(GeneralError error) noexcept {
   using rms::util::enum_util::ToIntegral;
   return std::error_condition(ToIntegral(error), ErrorCategory::get());
 }

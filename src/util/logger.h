@@ -78,26 +78,18 @@ class LogManager {
 }  // namespace util
 }  // namespace rms
 
-#define INIT_LOGGER(log_config) \
-  IMPL_LOGGER_NAMESPACE_::LogManager log_manager__(log_config)
+#define INIT_LOGGER(log_config) IMPL_LOGGER_NAMESPACE_::LogManager log_manager__(log_config)
 #define SHUTDOWN_LOGGER() IMPL_LOGGER_NAMESPACE_::LogManager::Shutdown();
 
-#define LOG_TRACEL(logger, message) \
-  LOG4CPLUS_TRACE(logger, LOG4CPLUS_TEXT(message))
-#define LOG_DEBUGL(logger, message) \
-  LOG4CPLUS_DEBUG(logger, LOG4CPLUS_TEXT(message))
-#define LOG_INFOL(logger, message) \
-  LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT(message))
-#define LOG_WARNL(logger, message) \
-  LOG4CPLUS_WARN(logger, LOG4CPLUS_TEXT(message))
-#define LOG_ERRORL(logger, message) \
-  LOG4CPLUS_ERROR(logger, LOG4CPLUS_TEXT(message))
-#define LOG_FATALL(logger, message) \
-  LOG4CPLUS_FATAL(logger, LOG4CPLUS_TEXT(message))
+#define LOG_TRACEL(logger, message) LOG4CPLUS_TRACE(logger, LOG4CPLUS_TEXT(message))
+#define LOG_DEBUGL(logger, message) LOG4CPLUS_DEBUG(logger, LOG4CPLUS_TEXT(message))
+#define LOG_INFOL(logger, message) LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT(message))
+#define LOG_WARNL(logger, message) LOG4CPLUS_WARN(logger, LOG4CPLUS_TEXT(message))
+#define LOG_ERRORL(logger, message) LOG4CPLUS_ERROR(logger, LOG4CPLUS_TEXT(message))
+#define LOG_FATALL(logger, message) LOG4CPLUS_FATAL(logger, LOG4CPLUS_TEXT(message))
 
 #define IMPLEMENT_STATIC_LOGGER(logger_name) \
-  static auto logger =                       \
-      IMPL_LOGGER_CLASS_TYPE_::getInstance(LOG4CPLUS_TEXT(logger_name))
+  static auto logger = IMPL_LOGGER_CLASS_TYPE_::getInstance(LOG4CPLUS_TEXT(logger_name))
 
 #define DECLARE_GET_LOGGER(logger_name)         \
   static IMPL_LOGGER_CLASS_TYPE_& GetLogger() { \
@@ -120,17 +112,11 @@ class LogManager {
 #define LOG_AUTO_TRACEL(logger, message) LOG4CPLUS_TRACE_METHOD(logger, message)
 #define LOG_AUTO_TRACE() LOG_AUTO_TRACEL(GetLogger(), LOG4CPLUS_TEXT(__func__))
 
-#define LOG_TRACEF(text, ...) \
-  LOG_TRACEL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
-#define LOG_DEBUGF(text, ...) \
-  LOG_DEBUGL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
-#define LOG_INFOF(text, ...) \
-  LOG_INFOL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
-#define LOG_WARNF(text, ...) \
-  LOG_WARNL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
-#define LOG_ERRORF(text, ...) \
-  LOG_ERRORL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
-#define LOG_FATALF(text, ...) \
-  LOG_FATALL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
+#define LOG_TRACEF(text, ...) LOG_TRACEL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
+#define LOG_DEBUGF(text, ...) LOG_DEBUGL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
+#define LOG_INFOF(text, ...) LOG_INFOL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
+#define LOG_WARNF(text, ...) LOG_WARNL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
+#define LOG_ERRORF(text, ...) LOG_ERRORL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
+#define LOG_FATALF(text, ...) LOG_FATALL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
 
 #endif

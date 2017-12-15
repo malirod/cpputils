@@ -11,8 +11,7 @@ namespace util {
 template <typename CleanupAction>
 class ScopeGuard {
  public:
-  explicit ScopeGuard(CleanupAction&& cleanup_action)
-      : cleanup_action_(std::move(cleanup_action)) {}
+  explicit ScopeGuard(CleanupAction&& cleanup_action) : cleanup_action_(std::move(cleanup_action)) {}
 
   ~ScopeGuard() {
     cleanup_action_();
