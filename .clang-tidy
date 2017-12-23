@@ -1,0 +1,6 @@
+Checks: '*,-cppcoreguidelines-pro-type-vararg,-android-*,-llvm-header-guard,-google-runtime-references,-modernize-use-equals-delete,-hicpp-use-equals-default,-hicpp-use-equals-delete,-modernize-use-equals-default,-hicpp-special-member-functions,-cert-err58-cpp,-cppcoreguidelines-special-member-functions,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-clang-analyzer-*,-llvm-include-order'
+
+WarningsAsErrors: '*,-cppcoreguidelines-pro-type-vararg,-android-*,-llvm-header-guard,-google-runtime-references,-modernize-use-equals-delete,-hicpp-use-equals-default,-hicpp-use-equals-delete,-modernize-use-equals-default,-hicpp-special-member-functions,-cert-err58-cpp,-cppcoreguidelines-special-member-functions,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-clang-analyzer-*,-llvm-include-order'
+
+AnalyzeTemporaryDtors: false
+FormatStyle: 'file'

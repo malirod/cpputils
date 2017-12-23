@@ -16,16 +16,16 @@ const std::error_category& rms::core::ErrorCategory::get() {
 
 std::error_condition rms::core::make_error_condition(GeneralError error) noexcept {
   using rms::util::enum_util::ToIntegral;
-  return std::error_condition(ToIntegral(error), ErrorCategory::get());
+  return {ToIntegral(error), ErrorCategory::get()};
 }
 
 std::error_code rms::core::make_error_code(GeneralError error) noexcept {
   using rms::util::enum_util::ToIntegral;
-  return std::error_code(ToIntegral(error), ErrorCategory::get());
+  return {ToIntegral(error), ErrorCategory::get()};
 }
 
 const char* rms::core::ErrorCategory::name() const noexcept {
-  return "GenenalError";
+  return "GeneralError";
 }
 
 std::string rms::core::ErrorCategory::message(int error_value) const {

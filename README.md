@@ -137,7 +137,29 @@ docker push $DOCKER_ID_USER/dev-cpputils
 Sample command to run analyzer. By default report is stored in `/tmp/scan-build*`
 
 ```
+mkdir build-debug
 cd build-debug
-scan-build cmake ..
-scan-build --use-analyzer=/usr/bin/clang++-5.0 make -j2
+scan-build --use-analyzer=/usr/bin/clang++-5.0 cmake ..
+scan-build --use-analyzer=/usr/bin/clang++-5.0 make -j$(nproc)
+```
+
+or
+
+
+```
+cmake ..
+make clang-static-analyzer
+```
+
+### Clang-tidy
+
+Setting are stored in `.clang-tidy`.
+
+Run
+
+```
+mkdir build
+cd build
+cmake ..
+make clang-tidy
 ```

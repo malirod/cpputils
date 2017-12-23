@@ -9,7 +9,7 @@ namespace {
 
 class Foo {
  public:
-  explicit Foo(int data) : data(data) {
+  explicit Foo(int data) : data_(data) {
     ++ctor_cnt;
   }
 
@@ -17,7 +17,7 @@ class Foo {
     ++ctor_cnt;
   }
 
-  Foo(const Foo&) {
+  Foo(const Foo& /*unused*/) {
     ++copy_ctor_cnt;
   }
 
@@ -25,22 +25,22 @@ class Foo {
     ++dtor_cnt;
   }
 
-  Foo(Foo&& rhs) : data(std::move(rhs.data)) {
+  Foo(Foo&& rhs) noexcept : data_(rhs.data_) {
     ++move_ctor_cnt;
   }
 
-  Foo& operator=(Foo&& rhs) {
-    data = std::move(rhs.data);
+  Foo& operator=(Foo&& rhs) noexcept {
+    data_ = rhs.data_;
     ++move_assign_cnt;
     return *this;
   }
 
   void SetData(int value) {
-    data = value;
+    data_ = value;
   }
 
   int GetData() const {
-    return data;
+    return data_;
   }
 
   static int ctor_cnt;
@@ -50,7 +50,7 @@ class Foo {
   static int dtor_cnt;
 
  private:
-  int data = 0;
+  int data_ = 0;
 };
 
 using UniqueFooType = std::vector<std::unique_ptr<Foo>>;
@@ -128,7 +128,7 @@ TEST_F(TestRVO, RVOWithManyReturnsFails) {
     if (some_object.GetData() == 0) {
       value += 1;
       return Foo(value);
-    } else if (some_object.GetData() > 0) {
+    } else if (some_object.GetData() > 0) {  // NOLINT
       value += 3;
       return Foo(value);
     }

@@ -4,6 +4,7 @@
 
 #include <string>
 #include <utility>
+
 #include "boost/format.hpp"
 
 namespace rms {
@@ -11,6 +12,10 @@ namespace util {
 
 class StringFmt {
  public:
+  // Deleted because of clang-tidy warning: misc-forwarding-reference-overload
+  StringFmt(const StringFmt&) = delete;
+  StringFmt(StringFmt&&) = delete;
+
   template <typename T>
   explicit StringFmt(T&& fmt);
 
@@ -23,7 +28,7 @@ class StringFmt {
   template <typename T, typename... Args>
   std::string format(T arg, Args... args);
 
-  operator std::string() const;
+  explicit operator std::string() const;
 
  private:
   boost::format fmt_;
@@ -33,7 +38,7 @@ class StringFmt {
 }  // namespace rms
 
 template <typename T>
-inline rms::util::StringFmt::StringFmt(T&& fmt) : fmt_(std::forward<T>(fmt)) {}
+rms::util::StringFmt::StringFmt(T&& fmt) : fmt_(std::forward<T>(fmt)) {}
 
 template <typename T>
 rms::util::StringFmt& rms::util::StringFmt::operator<<(const T& arg) {

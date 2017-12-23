@@ -5,6 +5,7 @@
 
 #include <fstream>
 #include <vector>
+
 #include "log4cplus/configurator.h"
 
 namespace {
