@@ -49,7 +49,6 @@ set(CMAKE_CXX_STANDARD 11)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/thirdparty/sanitizers-cmake/cmake/")
 find_package(Sanitizers REQUIRED)
 
-
 # Add possibility to get code coverage
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/thirdparty/CMake-codecov/cmake")
 find_package(codecov REQUIRED)
@@ -91,6 +90,35 @@ add_sanitizers(testrunner)
 
 add_coverage(testrunner)
 
+# Setup clang-tidy target
+find_program(CLANG_TIDY_EXE NAMES "clang-tidy-5.0" PATHS /usr/bin)
+find_program(RUN_CLANG_TIDY_EXE NAMES "run-clang-tidy.py" PATHS /usr/lib/llvm-5.0/share/clang)
+
+if (NOT CLANG_TIDY_EXE)
+    message(WARNING "clang-tidy not found!")
+endif()
+
+if (NOT RUN_CLANG_TIDY_EXE)
+    message(WARNING "run-clang-tidy.py not found!")
+endif()
+
+if (CLANG_TIDY_EXE AND RUN_CLANG_TIDY_EXE)
+    message("Found clang-tidy and run-clang-tidy.py")
+    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+    set(CLANG_TIDY_HEADER_FILTER "'\/src\/|\/test\/'")
+    set(CLANG_TIDY_FILE_FILTER "'|(\/test\/)|(((?<!log4cplus)(?<!googlemock)(?<!googletest)\/src\/))'")
+
+    add_custom_target(clang-tidy
+        COMMAND ${RUN_CLANG_TIDY_EXE} -quiet -header-filter=${CLANG_TIDY_HEADER_FILTER} files=${CLANG_TIDY_FILE_FILTER}
+        VERBATIM)
+endif()
+
+# Setup clang static analyzer
+add_custom_target(clang-static-analyzer
+    COMMAND scan-build --use-analyzer=/usr/bin/clang++-5.0 make
+    VERBATIM)
+
+# Add all thirdparty modules
 add_subdirectory(thirdparty)
 
 target_include_directories(testrunner

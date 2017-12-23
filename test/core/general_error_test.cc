@@ -27,5 +27,5 @@ TEST(TestGeneralErrorEnum, Makers) {
   EXPECT_TRUE(make_error_code(GeneralError::InternalError));
   EXPECT_EQ("Internal error", make_error_code(GeneralError::InternalError).message());
   const std::string name{make_error_code(GeneralError::InternalError).category().name()};
-  EXPECT_EQ("GenenalError", name);
+  EXPECT_EQ("GeneralError", name);
 }

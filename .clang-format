@@ -1,15 +1,19 @@
----
 Language: Cpp
 BasedOnStyle: Google
+
+# Motivation: one-liners are not convenient to debug with breakpoints
 AllowShortFunctionsOnASingleLine: Empty
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
+
+# Mater of taste
 BinPackArguments: false
 BinPackParameters: false
 BreakConstructorInitializersBeforeComma: true
 DerivePointerAlignment: false
-TabWidth: 2
-ColumnLimit: 120
 # Force pointers to the type for C++.
 DerivePointerAlignment: false
 PointerAlignment: Left
+
+# Many developers complain about 80 chars
+ColumnLimit: 120
