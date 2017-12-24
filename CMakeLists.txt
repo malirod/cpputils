@@ -104,14 +104,14 @@ endif()
 
 if (CLANG_TIDY_EXE AND RUN_CLANG_TIDY_EXE)
     message("Found clang-tidy and run-clang-tidy.py")
-    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
     set(CLANG_TIDY_HEADER_FILTER "'\/src\/|\/test\/'")
-    set(CLANG_TIDY_FILE_FILTER "'|(\/test\/)|(((?<!log4cplus)(?<!googlemock)(?<!googletest)\/src\/))'")
 
     add_custom_target(clang-tidy
-        COMMAND ${RUN_CLANG_TIDY_EXE} -quiet -header-filter=${CLANG_TIDY_HEADER_FILTER} files=${CLANG_TIDY_FILE_FILTER}
+        COMMAND ${RUN_CLANG_TIDY_EXE} -quiet -header-filter=${CLANG_TIDY_HEADER_FILTER}
         VERBATIM)
 endif()
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Setup clang static analyzer
 add_custom_target(clang-static-analyzer
