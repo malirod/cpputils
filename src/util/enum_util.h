@@ -29,13 +29,15 @@ constexpr inline typename std::enable_if<std::is_enum<E>::value && std::is_integ
 
   /*
    * Reason for warning ignore.
-   * Recently introduced warning in clang (-Wundefined-var-template)
+   * In 3.9 clang introduced warning (-Wundefined-var-template) which
    * prevents main idea of enum util: split enum utils and filling Storage
    * in enum's cpp file via template specialization.
    */
 
 #pragma clang diagnostic push
+#if defined(__clang__) and (((__clang_major__ > 3) and (__clang_minor__ >= 9)) or __clang_major__ > 3)
 #pragma clang diagnostic ignored "-Wundefined-var-template"
+#endif
 
 template <typename T>
 struct Storage {
