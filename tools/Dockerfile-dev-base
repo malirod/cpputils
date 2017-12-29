@@ -35,3 +35,9 @@ RUN cd $HOME/boost_1_65_1 && ./bootstrap.sh --prefix=./build --with-toolset=clan
 RUN cd $HOME/boost_1_65_1 && ./b2 --toolset=clang cxxflags="-std=c++11" variant=release link=static threading=multi -j$(nproc) --with-atomic --with-chrono --with-container --with-context --with-coroutine --with-date_time --with-exception --with-filesystem --with-program_options --with-signals --with-system --with-thread --with-timer install
 
 ENV BOOST_ROOT $HOME/boost_1_65_1/build
+
+# Install Include-What-You-Use
+RUN apt-get update
+RUN apt-get install -y libncurses5-dev libclang-5.0-dev libz-dev
+RUN git clone https://github.com/include-what-you-use/include-what-you-use.git
+RUN cd include-what-you-use && git checkout -b clang_5.0 origin/clang_5.0 && mkdir build && cd build && cmake -DIWYU_LLVM_ROOT_PATH=/usr/lib/llvm-5.0 -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ .. && make -j$(nproc) && make install
