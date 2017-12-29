@@ -1,0 +1,11 @@
+[
+  { ref: "gtest.imp"},
+  { ref: "log4cplus.imp"},
+  { ref: "boost-misc.imp"},
+  { ref: "/usr/local/share/include-what-you-use/boost-all.imp"},
+  { ref: "/usr/local/share/include-what-you-use/boost-all-private.imp"},
+  { ref: "/usr/local/share/include-what-you-use/gcc.libc.imp" },
+  { ref: "/usr/local/share/include-what-you-use/gcc.symbols.imp" },
+  { ref: "/usr/local/share/include-what-you-use/gcc.stl.headers.imp" },
+  { ref: "/usr/local/share/include-what-you-use/stl.c.headers.imp" }
+]

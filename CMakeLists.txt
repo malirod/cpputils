@@ -113,6 +113,19 @@ endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# Setup include-what-you-use
+find_program(IWYU_EXE NAMES "include-what-you-use" PATHS /usr/local/bin)
+find_program(IWYU_SCRIPT NAMES "iwyu_tool.py" PATHS /usr/local/bin)
+if(NOT IWYU_EXE OR NOT IWYU_SCRIPT)
+    message(WARNING "Could not find the program(s) include-what-you-use or iwyu_tool.py")
+else()
+    message("Found include-what-you-use: ${IWYU_EXE}")
+    message("Found iwyu_tool.py: ${IWYU_SCRIPT}")
+    add_custom_target(iwyu
+        COMMAND ${CMAKE_CURRENT_LIST_DIR}/tools/iwyu/run_iwyu.sh
+        VERBATIM)
+endif()
+
 # Setup clang static analyzer
 add_custom_target(clang-static-analyzer
     COMMAND scan-build --use-analyzer=/usr/bin/clang++-5.0 make
