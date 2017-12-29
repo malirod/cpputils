@@ -1,8 +1,9 @@
 // Copyright [2017] <Malinovsky Rodion>
 
 #include "core/general_error.h"
-#include "gtest/gtest.h"
 #include "util/enum_util.h"
+
+#include <gtest/gtest.h>
 
 using rms::core::GeneralError;
 using rms::util::enum_util::EnumToString;

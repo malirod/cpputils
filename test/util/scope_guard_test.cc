@@ -1,7 +1,7 @@
 // Copyright [2017] <Malinovsky Rodion>
 
 #include "util/scope_guard.h"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 TEST(TestScopeGuard, BasicUsage) {
   int hit_count = 0;

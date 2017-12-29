@@ -1,9 +1,10 @@
 // Copyright [2017] <Malinovsky Rodion>
 
 #include "util/logger.h"
+#include <gtest/gtest.h>
 #include <cstdio>
-#include <fstream>
-#include "gtest/gtest.h"
+#include <fstream>  // IWYU pragma: keep
+#include <string>
 
 DECLARE_GLOBAL_GET_LOGGER("Logger.Global")
 

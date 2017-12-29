@@ -1,8 +1,8 @@
 // Copyright [2017] <Malinovsky Rodion>
 
 #include "util/enum_util.h"
+#include <gtest/gtest.h>
 #include <sstream>
-#include "gtest/gtest.h"
 
 namespace {
 

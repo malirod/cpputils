@@ -1,7 +1,8 @@
 // Copyright [2017] <Malinovsky Rodion>
 
 #include "util/string_fmt.h"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+#include <iostream>
 
 using rms::util::StringFmt;
 

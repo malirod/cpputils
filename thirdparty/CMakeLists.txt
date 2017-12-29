@@ -1,5 +1,6 @@
 # Force release builds for thirdparty
 set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_EXPORT_COMPILE_COMMANDS OFF)
 
 message("Processing GTest")
 

@@ -18,6 +18,8 @@ script:
   - docker run travis-build tools/checkstyle.sh $TRAVIS_COMMIT_RANGE
   # Run clang analysis tools
   - docker run travis-build /bin/bash -c "mkdir build-clang-tidy && cd build-clang-tidy && cmake .. && make clang-tidy"
+  # Run IWYU
+  - docker run travis-build /bin/bash -c "cd build-clang-debug && ninja iwyu"
   # Clang, build debug and release and run tests for debug build
   - docker run travis-build /bin/bash -c "cd build-clang-debug && ninja && ctest --output-on-failure"
   - docker run travis-build /bin/bash -c "cd build-clang-release && ninja && ctest --output-on-failure"

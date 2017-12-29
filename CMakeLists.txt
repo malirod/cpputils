@@ -104,12 +104,25 @@ endif()
 
 if (CLANG_TIDY_EXE AND RUN_CLANG_TIDY_EXE)
     message("Found clang-tidy and run-clang-tidy.py")
-    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
     set(CLANG_TIDY_HEADER_FILTER "'\/src\/|\/test\/'")
-    set(CLANG_TIDY_FILE_FILTER "'|(\/test\/)|(((?<!log4cplus)(?<!googlemock)(?<!googletest)\/src\/))'")
 
     add_custom_target(clang-tidy
-        COMMAND ${RUN_CLANG_TIDY_EXE} -quiet -header-filter=${CLANG_TIDY_HEADER_FILTER} files=${CLANG_TIDY_FILE_FILTER}
+        COMMAND ${RUN_CLANG_TIDY_EXE} -quiet -header-filter=${CLANG_TIDY_HEADER_FILTER}
+        VERBATIM)
+endif()
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# Setup include-what-you-use
+find_program(IWYU_EXE NAMES "include-what-you-use" PATHS /usr/local/bin)
+find_program(IWYU_SCRIPT NAMES "iwyu_tool.py" PATHS /usr/local/bin)
+if(NOT IWYU_EXE OR NOT IWYU_SCRIPT)
+    message(WARNING "Could not find the program(s) include-what-you-use or iwyu_tool.py")
+else()
+    message("Found include-what-you-use: ${IWYU_EXE}")
+    message("Found iwyu_tool.py: ${IWYU_SCRIPT}")
+    add_custom_target(iwyu
+        COMMAND ${CMAKE_CURRENT_LIST_DIR}/tools/iwyu/run_iwyu.sh
         VERBATIM)
 endif()
 

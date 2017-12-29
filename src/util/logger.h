@@ -46,10 +46,12 @@
 #define LOG4CPLUS_DISABLE_DEBUG
 #endif  // CUT_OFF_DEBUG_LOG
 
-#include "log4cplus/logger.h"
-#include "log4cplus/loggingmacros.h"
+#include <log4cplus/logger.h>
+#include <log4cplus/loggingmacros.h>
 
-#include "util/string_fmt.h"
+#include <iosfwd>
+
+#include "util/string_fmt.h"  // IWYU pragma: export
 
 #define IMPL_LOGGER_CLASS_TYPE_ log4cplus::Logger
 #define IMPL_LOGGER_NAMESPACE_ rms::util::logging

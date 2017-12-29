@@ -1,7 +1,7 @@
 // Copyright [2017] <Malinovsky Rodion>
 
 #include "util/static_string.h"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 TEST(TestStaticString, BasicUsage) {
   constexpr rms::util::StaticString foo("foo");
