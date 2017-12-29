@@ -1,6 +1,7 @@
 // Copyright [2017] <Malinovsky Rodion>
 
-#include "gmock/gmock.h"
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 #include "util/logger.h"
 
 int main(int argc, char** argv) {

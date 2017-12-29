@@ -1,7 +1,7 @@
 // Copyright [2017] <Malinovsky Rodion>
 
 #include "util/smartptr_util.h"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace {
 

@@ -3,10 +3,10 @@
 #include "util/logger.h"
 #ifndef DISABLE_LOGGER
 
-#include <fstream>
-#include <vector>
+#include <log4cplus/configurator.h>
+#include <log4cplus/config.hxx>
 
-#include "log4cplus/configurator.h"
+#include <fstream>  // IWYU pragma: keep
 
 namespace {
 

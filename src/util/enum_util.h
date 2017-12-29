@@ -8,6 +8,7 @@
  */
 
 #include <algorithm>
+#include <iterator>
 #include <sstream>
 #include <string>
 #include <type_traits>

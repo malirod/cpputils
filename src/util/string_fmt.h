@@ -5,7 +5,7 @@
 #include <string>
 #include <utility>
 
-#include "boost/format.hpp"
+#include <boost/format.hpp>
 
 namespace rms {
 namespace util {
