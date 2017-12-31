@@ -46,11 +46,11 @@ include(GNUInstallDirs)
 set(CMAKE_CXX_STANDARD 11)
 
 # Add possibility to sinitize code
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/thirdparty/sanitizers-cmake/cmake/")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/sanitizers-cmake/cmake/")
 find_package(Sanitizers REQUIRED)
 
 # Add possibility to get code coverage
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/thirdparty/CMake-codecov/cmake")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/CMake-codecov/cmake")
 find_package(codecov REQUIRED)
 list(APPEND LCOV_REMOVE_PATTERNS "'${PROJECT_SOURCE_DIR}/thirdparty/*'")
 
