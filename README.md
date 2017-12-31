@@ -163,3 +163,21 @@ cd build
 cmake ..
 make clang-tidy
 ```
+
+### Include-What-You-Use
+
+Setup for CLang 5.0
+
+Prepare IWYU
+
+```
+sudo apt install libncurses5-dev libclang-5.0-dev libz-dev
+git clone https://github.com/include-what-you-use/include-what-you-use.git
+git checkout -b clang_5.0 origin/clang_5.0
+mkdir build && cd build
+cmake -DIWYU_LLVM_ROOT_PATH=/usr/lib/llvm-5.0 -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ ..
+make
+sudo make install
+```
+
+Once `include-what-you-use` is availabe in the `PATH` the one can check project by invoking `make iwyu`.
