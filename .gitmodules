@@ -1,7 +1,3 @@
-[submodule "thirdparty/log4cplus"]
-	path = thirdparty/log4cplus
-	url = https://github.com/malirod/log4cplus.git
-	ignore = dirty
 [submodule "thirdparty/googletest"]
 	path = thirdparty/googletest
 	url = https://github.com/google/googletest

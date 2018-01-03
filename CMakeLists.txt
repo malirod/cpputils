@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.9)
 
 # Prefer Clang compiler
 if (NOT CMAKE_CXX_COMPILER AND NOT CMAKE_C_COMPILER AND NOT DEFINED ENV{CXX} AND NOT DEFINED ENV{CC} )
-    message("Compiler is not set explicitly. Using clang++")
+    message(STATUS "Compiler is not set explicitly. Using clang++")
     set(CMAKE_CXX_COMPILER "clang++")
     set(CMAKE_C_COMPILER "clang")
 endif()
@@ -10,14 +10,14 @@ endif()
 # Configure CCache if available
 find_program(CCACHE_FOUND ccache)
 if(CCACHE_FOUND)
-    message("Ccache found. Will be use used.")
+    message(STATUS "Ccache found. Will be use used.")
     set(CMAKE_C_COMPILER_LAUNCHER ccache)
     set(CMAKE_CXX_COMPILER_LAUNCHER ccache)
 endif(CCACHE_FOUND)
 
 # Set a default build type if none was specified
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-    message("Setting build type to 'Debug' as none was specified.")
+    message(STATUS "Setting build type to 'Debug' as none was specified.")
     set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build." FORCE)
     # Set the possible values of build type for cmake-gui
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
@@ -29,13 +29,21 @@ if (UNIX AND NOT APPLE)
                   -fuse-ld=gold -Wl,--version
                   ERROR_QUIET OUTPUT_VARIABLE ld_version)
   if ("${ld_version}" MATCHES "GNU gold")
-    message("Found Gold linker, use faster linker")
+    message(STATUS "Found Gold linker, use faster linker")
     set(CMAKE_EXE_LINKER_FLAGS
         "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=gold")
     set(CMAKE_SHARED_LINKER_FLAGS
         "${CMAKE_SHARED_LINKER_FLAGS} -fuse-ld=gold")
   endif()
 endif()
+
+# Setup Hunter
+include("cmake/HunterGate.cmake")
+HunterGate(
+    URL "https://github.com/ruslo/hunter/archive/v0.19.216.tar.gz"
+    SHA1 "247d3ca881e9c83e6ac419d55cd08d1775ea077a"
+    LOCAL
+)
 
 project(cpputils VERSION 1.0 LANGUAGES CXX)
 
@@ -45,6 +53,18 @@ include(GNUInstallDirs)
 
 set(CMAKE_CXX_STANDARD 11)
 
+# Download dependencies
+hunter_add_package(GTest)
+hunter_add_package(Boost)
+hunter_add_package(log4cplus)
+
+# Find dependencies
+find_package(GMock CONFIG REQUIRED)
+set(Boost_USE_STATIC_LIBS ON) # only find static libs
+set(Boost_USE_MULTITHREADED ON)
+find_package(Boost REQUIRED)
+find_package(log4cplus CONFIG REQUIRED)
+
 # Add possibility to sinitize code
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/sanitizers-cmake/cmake/")
 find_package(Sanitizers REQUIRED)
@@ -52,13 +72,8 @@ find_package(Sanitizers REQUIRED)
 # Add possibility to get code coverage
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/CMake-codecov/cmake")
 find_package(codecov REQUIRED)
-list(APPEND LCOV_REMOVE_PATTERNS "'${PROJECT_SOURCE_DIR}/thirdparty/*'")
 
 include(CTest)
-
-set(Boost_USE_STATIC_LIBS ON) # only find static libs
-set(Boost_USE_MULTITHREADED ON)
-find_package(Boost 1.62 REQUIRED)
 
 set(SRC_LIST
     "src/core/general_error.cc"
@@ -103,7 +118,7 @@ if (NOT RUN_CLANG_TIDY_EXE)
 endif()
 
 if (CLANG_TIDY_EXE AND RUN_CLANG_TIDY_EXE)
-    message("Found clang-tidy and run-clang-tidy.py")
+    message(STATUS "Found clang-tidy and run-clang-tidy.py")
     set(CLANG_TIDY_HEADER_FILTER "'\/src\/|\/test\/'")
 
     add_custom_target(clang-tidy
@@ -119,8 +134,8 @@ find_program(IWYU_SCRIPT NAMES "iwyu_tool.py" PATHS /usr/local/bin)
 if(NOT IWYU_EXE OR NOT IWYU_SCRIPT)
     message(WARNING "Could not find the program(s) include-what-you-use or iwyu_tool.py")
 else()
-    message("Found include-what-you-use: ${IWYU_EXE}")
-    message("Found iwyu_tool.py: ${IWYU_SCRIPT}")
+    message(STATUS "Found include-what-you-use: ${IWYU_EXE}")
+    message(STATUS "Found iwyu_tool.py: ${IWYU_SCRIPT}")
     add_custom_target(iwyu
         COMMAND ${CMAKE_CURRENT_LIST_DIR}/tools/iwyu/run_iwyu.sh
         VERBATIM)
@@ -131,9 +146,6 @@ add_custom_target(clang-static-analyzer
     COMMAND scan-build --use-analyzer=/usr/bin/clang++-5.0 make
     VERBATIM)
 
-# Add all thirdparty modules
-add_subdirectory(thirdparty)
-
 target_include_directories(testrunner
     PRIVATE
     src
@@ -142,7 +154,7 @@ target_include_directories(testrunner
 
 target_compile_options(testrunner PRIVATE -Wextra -Werror)
 
-target_link_libraries(testrunner PRIVATE gtest gmock_main log4cplusS)
+target_link_libraries(testrunner PRIVATE GMock::main log4cplus::log4cplus ${Boost_LIBRARIES})
 
 add_test(NAME all COMMAND testrunner)
 
