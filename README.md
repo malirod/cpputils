@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/malirod/cpputils.svg?branch=master)](https://travis-ci.org/malirod/cpputils)
 
 # cpputils
-Dirrerent utils \ helpers in C++11. Boost is used.
+Different utils \ helpers in C++11. Boost is used.
 
 ## Platform
 
