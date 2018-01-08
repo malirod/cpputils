@@ -40,3 +40,5 @@ build*
 
 tags
 .idea/
+
+compile_commands.json
