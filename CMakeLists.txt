@@ -53,6 +53,7 @@ if(NOT EXISTS "${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
     message(FATAL_ERROR "Dependencies are not configured. Install dependencies first, e.g. running in build dir: ${CONAN_INSTALL_CMD}")
 endif()
 
+# This will set output dir to bin
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup(TARGETS)
 
@@ -154,4 +155,4 @@ target_link_libraries(testrunner PRIVATE CONAN_PKG::gtest CONAN_PKG::log4cplus $
 add_test(NAME all COMMAND testrunner)
 
 #Copy default config to the output dir
-configure_file(config/logger.cfg logger.cfg COPYONLY)
+configure_file(config/logger.cfg bin/logger.cfg COPYONLY)
