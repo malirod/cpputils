@@ -10,4 +10,5 @@ class CppUtilsConan(ConanFile):
     description = "C++ Utils"
     generators = "cmake"
     requires = ("gtest/1.8.0@malirod/stable",
-                "log4cplus/2.0.0-RC2@malirod/stable")
+                "log4cplus/2.0.0-RC2@malirod/stable",
+                "Boost/1.66.0@malirod/stable")

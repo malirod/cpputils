@@ -10,3 +10,6 @@
 [submodule "tools/conan/recipe/conan-log4cplus"]
 	path = tools/conan/recipe/conan-log4cplus
 	url = git@github.com:malirod/conan-log4cplus.git
+[submodule "tools/conan/recipe/conan-boost"]
+	path = tools/conan/recipe/conan-boost
+	url = git@github.com:malirod/conan-boost.git

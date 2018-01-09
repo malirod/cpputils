@@ -57,10 +57,6 @@ endif()
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup(TARGETS)
 
-set(Boost_USE_STATIC_LIBS ON) # only find static libs
-set(Boost_USE_MULTITHREADED ON)
-find_package(Boost REQUIRED)
-
 # Add possibility to sinitize code
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/sanitizers-cmake/cmake/")
 find_package(Sanitizers REQUIRED)
@@ -145,12 +141,11 @@ add_custom_target(clang-static-analyzer
 target_include_directories(testrunner
     PRIVATE
     src
-    test
-    "${Boost_INCLUDE_DIRS}")
+    test)
 
 target_compile_options(testrunner PRIVATE -Wextra -Werror)
 
-target_link_libraries(testrunner PRIVATE CONAN_PKG::gtest CONAN_PKG::log4cplus ${Boost_LIBRARIES})
+target_link_libraries(testrunner PRIVATE CONAN_PKG::gtest CONAN_PKG::log4cplus CONAN_PKG::Boost)
 
 add_test(NAME all COMMAND testrunner)
 
