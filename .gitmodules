@@ -1,15 +1,15 @@
 [submodule "cmake/sanitizers-cmake"]
 	path = cmake/sanitizers-cmake
-	url = git://github.com/arsenm/sanitizers-cmake.git
+	url = https://github.com/arsenm/sanitizers-cmake.git
 [submodule "cmake/CMake-codecov"]
 	path = cmake/CMake-codecov
-	url = git://github.com/RWTH-HPC/CMake-codecov.git
+	url = https://github.com/RWTH-HPC/CMake-codecov.git
 [submodule "tools/conan/recipe/conan-gtest"]
 	path = tools/conan/recipe/conan-gtest
-	url = git@github.com:malirod/conan-gtest.git
+	url = https://github.com/malirod/conan-gtest.git
 [submodule "tools/conan/recipe/conan-log4cplus"]
 	path = tools/conan/recipe/conan-log4cplus
-	url = git@github.com:malirod/conan-log4cplus.git
+	url = https://github.com/malirod/conan-log4cplus.git
 [submodule "tools/conan/recipe/conan-boost"]
 	path = tools/conan/recipe/conan-boost
-	url = git@github.com:malirod/conan-boost.git
+	url = https://github.com/malirod/conan-boost.git
