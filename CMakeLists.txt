@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.5)
 
 # Prefer Clang compiler
 if (NOT CMAKE_CXX_COMPILER AND NOT CMAKE_C_COMPILER AND NOT DEFINED ENV{CXX} AND NOT DEFINED ENV{CC} )
@@ -48,9 +48,17 @@ set(CMAKE_CXX_STANDARD 11)
 # Manage dependencies
 
 # Setup Conan
-if(NOT EXISTS "${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
-    set(CONAN_INSTALL_CMD "conan install .. --profile ../tools/conan/profile-clang")
-    message(FATAL_ERROR "Dependencies are not configured. Install dependencies first, e.g. running in build dir: ${CONAN_INSTALL_CMD}")
+if (NOT EXISTS "${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
+    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        message(STATUS "Setup dependencies with conan (clang)")
+        execute_process(COMMAND conan install ${CMAKE_CURRENT_LIST_DIR} --profile ${CMAKE_CURRENT_LIST_DIR}/tools/conan/profile-clang)
+    elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+        message(STATUS "Setup dependencies with conan (gcc)")
+        execute_process(COMMAND conan install ${CMAKE_CURRENT_LIST_DIR} --profile ${CMAKE_CURRENT_LIST_DIR}/tools/conan/profile-gcc)
+    else()
+        set(CONAN_INSTALL_CMD "conan install .. <list-of-settings>")
+        message(FATAL_ERROR "Dependencies are not configured. Install dependencies first, e.g. running in build dir: ${CONAN_INSTALL_CMD}")
+    endif()
 endif()
 
 # This will set output dir to bin

@@ -4,22 +4,15 @@ ENV HOME /root
 ENV PROJECT_ROOT $HOME/project
 ENV PATH $NINJA_ROOT:$PATH
 
+# Make parallel make build by default
+ENV MAKEFLAGS "-j$(nproc) $MAKEFLAGS"
+
 ADD . $PROJECT_ROOT
 
-WORKDIR $HOME
+WORKDIR $PROJECT_ROOT
 
-# Preconfigure thirdparties with Clang
-WORKDIR $PROJECT_ROOT
-RUN mkdir build-clang-debug && cd build-clang-debug && cmake -G"Ninja" ..
-RUN cd build-clang-debug && ninja
-WORKDIR $PROJECT_ROOT
-RUN mkdir build-clang-release && cd build-clang-release && cmake -G"Ninja" -DCMAKE_BUILD_TYPE=Release .. && ninja
-RUN cd build-clang-release && ninja
-
-# Preconfigure thirdparties with Gcc
-WORKDIR $PROJECT_ROOT
-RUN mkdir build-gcc-debug && cd build-gcc-debug && cmake -G"Ninja" -DCMAKE_CXX_COMPILER=g++ .. && ninja
-RUN cd build-gcc-debug && ninja
-WORKDIR $PROJECT_ROOT
-RUN mkdir build-gcc-release && cd build-gcc-release && cmake -G"Ninja" -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=Release .. && ninja
-RUN cd build-gcc-release && ninja
+# Setup dependencies
+RUN mkdir build-clang-debug && cd build-clang-debug && CXX=clang cmake ..
+RUN mkdir build-clang-release && cd build-clang-release && CXX=clang cmake ..
+RUN mkdir build-gcc-debug && cd build-gcc-debug && CXX=g++ cmake ..
+RUN mkdir build-gcc-release && cd build-gcc-release && CXX=g++ cmake ..

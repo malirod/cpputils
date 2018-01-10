@@ -5,11 +5,15 @@ Different utils \ helpers in C++11. Boost is used.
 
 ## Platform
 
-Ubuntu 16.04: Clang 5.0, GCC 5.4
+Ubuntu 16.04: Clang 5.0, GCC 5.4, Cmake 3.5, Conan
 
 C++11 Standard is used.
 
+See `tools/Dockerfile-dev-base` for details how to setup development environment
+
 ## Setup
+
+Assuming all further commands are executed from project root.
 
 ### Initial setup (post clone)
 
@@ -19,7 +23,7 @@ Get sub-modules with the following command
 
 #### Setup git hook
 
-Run `python tools/install_hooks.py`
+Run `tools/install_hooks.py`
 
 This will allow to perform some code checks locally before posting changes to server.
 
@@ -91,13 +95,13 @@ xdg-open lcov/html/testrunner/index.html
 
 ## Integration
 
-`Dockerfile` creates build environment from the scratch. It should be built manually and pushed to DockerHub
+`Dockerfile-initial` creates build environment from the scratch. It should be built manually and pushed to DockerHub
 
-`Dockerfile-travis` is used by Travis. It's based on pre-built image from `Dockerfile` on DockerHub
+`Dockerfile-travis` is used by Travis. It's based on pre-built image from `Dockerfile-initial` on DockerHub
 
 ### Create docker image
 
-**Dockerfile-dev-base**: base image, which contains basic env setup (compiler, build tools)
+**Dockerfile-dev-base**: base image, which contains basic environment setup (compiler, build tools)
 
 `docker build -t cpp-dev-base -f tools/Dockerfile-dev-base .`
 
@@ -109,10 +113,10 @@ Steps to prepare image for Travis
 
 ```
 docker build -t cpp-dev-base -f tools/Dockerfile-dev-base .
-docker build -t travis-build-cpputils -f tools/Dockerfile-initial .
-docker login
 docker tag cpp-dev-base $DOCKER_ID_USER/cpp-dev-base
+docker build -t travis-build-cpputils -f tools/Dockerfile-initial .
 docker tag travis-build-cpputils $DOCKER_ID_USER/dev-cpputils
+docker login
 docker push $DOCKER_ID_USER/cpp-dev-base
 docker push $DOCKER_ID_USER/dev-cpputils
 ```
