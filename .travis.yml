@@ -17,7 +17,7 @@ script:
   # Common style check
   - docker run travis-build tools/checkstyle.sh $TRAVIS_COMMIT_RANGE
   # Run clang analysis tools
-  - docker run travis-build /bin/bash -c "mkdir build-clang-tidy && cd build-clang-tidy && cmake .. && make clang-tidy"
+  - docker run travis-build /bin/bash -c "mkdir build-clang-tidy && cd build-clang-tidy && cmake .. && make -j$(nproc) clang-tidy"
   # Run IWYU
   - docker run travis-build /bin/bash -c "cd build-clang-debug && make iwyu"
   # Clang, build debug and release and run tests for debug build

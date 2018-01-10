@@ -1,9 +1,9 @@
 // Copyright [2017] <Malinovsky Rodion>
 
 #include <gtest/gtest.h>
-#include <time.h>
 #include <algorithm>
 #include <cstddef>
+#include <ctime>
 #include <memory>
 #include <vector>
 #include "util/smartptr_util.h"
