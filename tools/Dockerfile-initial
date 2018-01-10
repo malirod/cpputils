@@ -4,9 +4,6 @@ ENV HOME /root
 ENV PROJECT_ROOT $HOME/project
 ENV PATH $NINJA_ROOT:$PATH
 
-# Make parallel make build by default
-ENV MAKEFLAGS "-j$(nproc) $MAKEFLAGS"
-
 ADD . $PROJECT_ROOT
 
 WORKDIR $PROJECT_ROOT

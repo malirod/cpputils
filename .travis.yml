@@ -21,8 +21,8 @@ script:
   # Run IWYU
   - docker run travis-build /bin/bash -c "cd build-clang-debug && make iwyu"
   # Clang, build debug and release and run tests for debug build
-  - docker run travis-build /bin/bash -c "cd build-clang-debug && make && ctest --output-on-failure"
-  - docker run travis-build /bin/bash -c "cd build-clang-release && make && ctest --output-on-failure"
+  - docker run travis-build /bin/bash -c "cd build-clang-debug && make -j$(nproc) && ctest --output-on-failure"
+  - docker run travis-build /bin/bash -c "cd build-clang-release && make -j$(nproc) && ctest --output-on-failure"
   # GCC, build debug and release and run tests for debug
-  - docker run travis-build /bin/bash -c "cd build-gcc-debug && make && ctest --output-on-failure"
-  - docker run travis-build /bin/bash -c "cd build-gcc-release && make && ctest --output-on-failure"
+  - docker run travis-build /bin/bash -c "cd build-gcc-debug && make -j$(nproc) && ctest --output-on-failure"
+  - docker run travis-build /bin/bash -c "cd build-gcc-release && make -j$(nproc) && ctest --output-on-failure"
