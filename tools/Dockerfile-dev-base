@@ -44,7 +44,6 @@ RUN apt install -y python-pip
 RUN pip install conan
 RUN conan remote add malirod-stable https://api.bintray.com/conan/malirod/stable
 
-# Install Conan packages
-RUN conan install gtest/1.8.0@malirod/stable -r malirod-stable
-RUN conan install log4cplus/2.0.0-RC2@malirod/stable -r malirod-stable
-RUN conan install Boost/1.66.0@malirod/stable -r malirod-stable
+RUN apt install -y mc
+RUN apt install -y vim-gtk-py2
+RUN ldconfig

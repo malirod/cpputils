@@ -43,6 +43,15 @@ Before calling cmake to generate build files generate cmake files for dependenci
 
 `conan install .. --profile ../tools/conan/profile-clang`
 
+**Hint:** to upload build packages to server use the following commands
+
+```
+conan remote add <REMOTE> https://api.bintray.com/conan/malirod/stable
+conan user -p <APIKEY> -r <REMOTE> <USERNAME>
+conan install . -r <REMOTE>
+conan upload "*" -r <REMOTE> --all
+```
+
 ## Install pylint - python checker
 
 `sudo pip install pylint==1.8.0`

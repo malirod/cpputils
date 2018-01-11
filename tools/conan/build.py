@@ -27,13 +27,13 @@ if __name__ == "__main__":
     gcc_profile = os.path.join(current_script_dir, "profile-gcc")
 
     # Setup gtest
-    run_cmd('conan install gtest/1.8.0@malirod/stable --profile {} -r {} -f {}'.format(clang_profile, remote_name, os.path.join(conan_tools_full_path, "conan-gtest")))
-    run_cmd('conan install gtest/1.8.0@malirod/stable --profile {} -r {} -f {}'.format(gcc_profile, remote_name, os.path.join(conan_tools_full_path, "conan-gtest")))
+    run_cmd('conan install gtest/1.8.0@malirod/stable --profile {} -f {} --build missing'.format(clang_profile, os.path.join(conan_tools_full_path, "conan-gtest")))
+    run_cmd('conan install gtest/1.8.0@malirod/stable --profile {} -f {} --build missing'.format(gcc_profile, os.path.join(conan_tools_full_path, "conan-gtest")))
 
     # Setup log4cplus
-    run_cmd('conan install log4cplus/2.0.0-RC2@malirod/stable --profile {} -r {} -f {}'.format(clang_profile, remote_name, os.path.join(conan_tools_full_path, "conan-log4cplus")))
-    run_cmd('conan install log4cplus/2.0.0-RC2@malirod/stable --profile {} -r {} -f {}'.format(gcc_profile, remote_name, os.path.join(conan_tools_full_path, "conan-log4cplus")))
+    run_cmd('conan install log4cplus/2.0.0-RC2@malirod/stable --profile {} -f {} --build missing'.format(clang_profile, os.path.join(conan_tools_full_path, "conan-log4cplus")))
+    run_cmd('conan install log4cplus/2.0.0-RC2@malirod/stable --profile {} -f {} --build missing'.format(gcc_profile, os.path.join(conan_tools_full_path, "conan-log4cplus")))
 
     # Setup Boost
-    run_cmd('conan install Boost/1.66.0@malirod/stable --profile {} -r {} -f {}'.format(clang_profile, remote_name, os.path.join(conan_tools_full_path, "conan-log4cplus")))
-    run_cmd('conan install Boost/1.66.0@malirod/stable --profile {} -r {} -f {}'.format(gcc_profile, remote_name, os.path.join(conan_tools_full_path, "conan-log4cplus")))
+    run_cmd('conan install Boost/1.66.0@malirod/stable --profile {} -f {} --build missing'.format(clang_profile, os.path.join(conan_tools_full_path, "conan-log4cplus")))
+    run_cmd('conan install Boost/1.66.0@malirod/stable --profile {} -f {} --build missing'.format(gcc_profile, os.path.join(conan_tools_full_path, "conan-log4cplus")))

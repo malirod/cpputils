@@ -9,7 +9,9 @@ ADD . $PROJECT_ROOT
 WORKDIR $PROJECT_ROOT
 
 # Setup dependencies
-RUN mkdir build-clang-debug && cd build-clang-debug && CXX=clang cmake ..
-RUN mkdir build-clang-release && cd build-clang-release && CXX=clang cmake ..
-RUN mkdir build-gcc-debug && cd build-gcc-debug && CXX=g++ cmake ..
-RUN mkdir build-gcc-release && cd build-gcc-release && CXX=g++ cmake ..
+RUN tools/conan/build.py
+
+RUN mkdir build-clang-debug
+RUN mkdir build-clang-release
+RUN mkdir build-gcc-debug
+RUN mkdir build-gcc-release
