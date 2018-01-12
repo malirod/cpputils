@@ -4,18 +4,22 @@ ENV HOME /root
 
 WORKDIR $HOME
 
-RUN apt-get update
-RUN apt-get install -y wget
-RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|apt-key add -
-RUN echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main" | tee -a /etc/apt/sources.list
-RUN echo "deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main" | tee -a /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get install -y git
-RUN apt-get install -y clang-5.0 clang-format-5.0 clang-tidy-5.0 g++ make ccache
-RUN apt-get install -y pylint
+RUN apt update
+RUN apt install -y wget
+RUN apt install -y git
+RUN apt install -y g++
+RUN apt install -y make
+RUN apt install -y ccache
+RUN apt install -y libz-dev
+RUN apt install -y libncurses5-dev
+RUN apt install -y libcurl4-openssl-dev
+RUN apt install -y re2c
 
-# Install CMake
-RUN wget https://cmake.org/files/v3.10/cmake-3.10.0.tar.gz && tar -xzf cmake-3.10.0.tar.gz && cd cmake-3.10.0 && ./bootstrap && make -j$(nproc) && make install
+# Install Clang-5.0
+RUN apt install -y clang-5.0
+RUN apt install -y clang-format-5.0
+RUN apt install -y clang-tidy-5.0
+RUN apt install -y libclang-5.0-dev
 
 # Make clang-5.0 default clang compiler
 RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-5.0 50
@@ -23,21 +27,23 @@ RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-5.0 50
 RUN update-alternatives --install /usr/bin/llvm-symbolizer llvm-symbolizer /usr/bin/llvm-symbolizer-5.0 50
 RUN update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-5.0 50
 
+# Install CMake
+RUN wget https://cmake.org/files/v3.10/cmake-3.10.0.tar.gz && tar -xzf cmake-3.10.0.tar.gz && cd cmake-3.10.0 && ./bootstrap --system-curl && make -j$(nproc) && make install
+
 # Install Ninja
-RUN apt-get install -y re2c
 ENV NINJA_ROOT $HOME/ninja
+ENV PATH $NINJA_ROOT:$PATH
 RUN git clone https://github.com/ninja-build/ninja.git $NINJA_ROOT
 RUN cd $NINJA_ROOT && ./configure.py --bootstrap
 
-# Install boost
-RUN wget https://dl.bintray.com/boostorg/release/1.65.1/source/boost_1_65_1.tar.gz && tar -xzf boost_1_65_1.tar.gz
-RUN cd $HOME/boost_1_65_1 && ./bootstrap.sh --prefix=./build --with-toolset=clang
-RUN cd $HOME/boost_1_65_1 && ./b2 --toolset=clang cxxflags="-std=c++11" variant=release link=static threading=multi -j$(nproc) --with-atomic --with-chrono --with-container --with-context --with-coroutine --with-date_time --with-exception --with-filesystem --with-program_options --with-signals --with-system --with-thread --with-timer install
-
-ENV BOOST_ROOT $HOME/boost_1_65_1/build
-
 # Install Include-What-You-Use
-RUN apt-get update
-RUN apt-get install -y libncurses5-dev libclang-5.0-dev libz-dev
 RUN git clone https://github.com/include-what-you-use/include-what-you-use.git
 RUN cd include-what-you-use && git checkout -b clang_5.0 origin/clang_5.0 && mkdir build && cd build && cmake -DIWYU_LLVM_ROOT_PATH=/usr/lib/llvm-5.0 -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ .. && make -j$(nproc) && make install
+
+# Install Conan
+RUN apt install -y python-pip
+RUN pip install conan
+RUN conan remote add malirod-stable https://api.bintray.com/conan/malirod/stable
+
+RUN apt install -y mc
+RUN ldconfig

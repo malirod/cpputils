@@ -3,6 +3,7 @@
   { include: [ "\"log4cplus/tchar.h\"", private, "<log4cplus/logger.h>", public ] },
   { include: [ "<log4cplus/tchar.h>", private, "<log4cplus/logger.h>", public ] },
   { include: [ "\"log4cplus/tstring.h\"", private, "<log4cplus/logger.h>", public ] },
+  { include: [ "<log4cplus/tstring.h>", private, "<log4cplus/logger.h>", public ] },
   { include: [ "\"log4cplus/loglevel.h\"", private, "<log4cplus/logger.h>", public ] },
   { include: [ "\"log4cplus/loggingmacros.h\"", private, "<log4cplus/loggingmacros.h>", public ] }
 ]

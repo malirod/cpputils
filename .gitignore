@@ -28,7 +28,7 @@
 *.out
 *.app
 
-build*
+build*/
 
 *.pyc
 
@@ -40,3 +40,5 @@ build*
 
 tags
 .idea/
+
+compile_commands.json

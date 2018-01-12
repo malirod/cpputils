@@ -15,7 +15,7 @@ else
   exit 1
 fi
 
-GIT_DIFF_IGNORE_LIST=":!tools/cpplint/* :!tools/cpplint/* :!thirdparty/*"
+GIT_DIFF_IGNORE_LIST=":!tools/cpplint/* :!tools/cpplint/* :!tools/conan/*"
 
 ##################################################################
 ### Check for odd whitespace

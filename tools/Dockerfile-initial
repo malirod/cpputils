@@ -2,24 +2,18 @@ FROM malirod/cpp-dev-base
 
 ENV HOME /root
 ENV PROJECT_ROOT $HOME/project
-ENV PATH $NINJA_ROOT:$PATH
 
 ADD . $PROJECT_ROOT
 
-WORKDIR $HOME
+WORKDIR $PROJECT_ROOT
 
-# Preconfigure thirdparties with Clang
-WORKDIR $PROJECT_ROOT
-RUN mkdir build-clang-debug && cd build-clang-debug && cmake -G"Ninja" ..
-RUN cd build-clang-debug && ninja
-WORKDIR $PROJECT_ROOT
-RUN mkdir build-clang-release && cd build-clang-release && cmake -G"Ninja" -DCMAKE_BUILD_TYPE=Release .. && ninja
-RUN cd build-clang-release && ninja
+# Setup dependencies
+# Use private repository only to speed up setup and aviod build of packs from public repositories
+RUN conan remote remove conan-center
+RUN conan remote remove conan-transit
+RUN tools/conan/build.py
 
-# Preconfigure thirdparties with Gcc
-WORKDIR $PROJECT_ROOT
-RUN mkdir build-gcc-debug && cd build-gcc-debug && cmake -G"Ninja" -DCMAKE_CXX_COMPILER=g++ .. && ninja
-RUN cd build-gcc-debug && ninja
-WORKDIR $PROJECT_ROOT
-RUN mkdir build-gcc-release && cd build-gcc-release && cmake -G"Ninja" -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=Release .. && ninja
-RUN cd build-gcc-release && ninja
+RUN mkdir build-clang-debug
+RUN mkdir build-clang-release
+RUN mkdir build-gcc-debug
+RUN mkdir build-gcc-release

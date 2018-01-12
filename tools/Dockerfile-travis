@@ -1,8 +1,3 @@
 FROM malirod/dev-cpputils
 
-ENV HOME /root
-ENV PROJECT_ROOT $HOME/project
-
 ADD . $PROJECT_ROOT
-
-WORKDIR $PROJECT_ROOT

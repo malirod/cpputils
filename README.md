@@ -5,11 +5,15 @@ Different utils \ helpers in C++11. Boost is used.
 
 ## Platform
 
-Ubuntu 16.04: Clang 5.0, GCC 5.4
+Ubuntu 16.04: Clang 5.0, GCC 5.4, Cmake 3.5, Conan
 
 C++11 Standard is used.
 
+See `tools/Dockerfile-dev-base` for details how to setup development environment
+
 ## Setup
+
+Assuming all further commands are executed from project root.
 
 ### Initial setup (post clone)
 
@@ -17,51 +21,40 @@ Get sub-modules with the following command
 
 `git submodule update --init --recursive`
 
-### Install Boost
+#### Setup git hook
 
-#### Use pre-build Boost lib
-
-Use the following repository: https://github.com/malirod/boost-bin
-
-Use appropriate branch. Branch name contains info about used env and options to build Boost.
-
-E.g.
-
-https://github.com/malirod/boost-bin/tree/boost-1.62-ubuntu-16.04-x64-clang-5.8-release-c++11-static-multi
-
-#### Build Boost manually from sources
-If pre-build version doesn't fit your needs (OS, compiler etc) then build Boost manually.
-
-Download and unzip to some dir (e.g. `~/libs/boost_1_62_0`) latest stable version from [Boost site](http://www.boost.org/).
-
-Go the unzipped directory and run commands
-
-```
-./bootstrap.sh --prefix=./build
-./b2 --toolset=clang cxxflags="-std=c++11" variant=release link=static threading=multi -j$(nproc) install
-
-```
-
-#### Set environment variable
-Set env pointing to the boost install dir (in ~/.profile or ~/.bashrc)
-
-`export BOOST_ROOT=~/libs/boost_1_62_0/build`
-
-Restart terminal, or reload config with `source ~/.profile` (`source ~/.bashrc`)
-
-## Setup git hook
-
-Run `python tools/install_hooks.py`
+Run `tools/install_hooks.py`
 
 This will allow to perform some code checks locally before posting changes to server.
 
+### Dependencies
+
+Project uses [Conan Package Manager](https://github.com/conan-io/conan)
+
+Install conan with
+
+`sudo -H pip install conan`
+
+To get dependencies from remote repository run command in project root
+
+`tools/conan/build.py`
+
+Before calling cmake to generate build files generate cmake files for dependencies (from build dir)
+
+`conan install .. --profile ../tools/conan/profile-clang`
+
+**Hint:** to upload build packages to server use the following commands
+
+```
+conan remote add <REMOTE> https://api.bintray.com/conan/malirod/stable
+conan user -p <APIKEY> -r <REMOTE> <USERNAME>
+conan install . -r <REMOTE>
+conan upload "*" -r <REMOTE> --all
+```
+
 ## Install pylint - python checker
 
-`sudo apt-get install pylint`
-
-## Logger
-
-Project uses log4cplus logger. It's configured as the sub-module located in `thirdparty\log4cplus`.
+`sudo pip install pylint==1.8.0`
 
 ## Build
 
@@ -83,15 +76,19 @@ You can enable sanitizers with `SANITIZE_ADDRESS`, `SANITIZE_MEMORY`, `SANITIZE_
 
 ## Run
 
-Run from project root. It's expected that config is located in the project root.
+Run from build directory
 
-`build/debug/testrunner`
+`ctest`
+
+or
+
+`bin/testrunner`
 
 ## Coverage report
 
 To enable coverage support in general, you have to enable `ENABLE_COVERAGE` option in your CMake configuration. You can do this by passing `-DENABLE_COVERAGE=On` on your command line or with your graphical interface.
 
-If coverage is supported by your compiler, the specified targets will be build with coverage support. If your compiler has no coverage capabilities (I asume intel compiler doesn't) you'll get a warning but CMake will continue processing and coverage will simply just be ignored.
+If coverage is supported by your compiler, the specified targets will be build with coverage support. If your compiler has no coverage capabilities (I assume Intel compiler doesn't) you'll get a warning but CMake will continue processing and coverage will simply just be ignored.
 
 Collect coverage in Debug mode. Tested with gcc 5.0 and clang 5.0 compiler.
 
@@ -107,13 +104,13 @@ xdg-open lcov/html/testrunner/index.html
 
 ## Integration
 
-`Dockerfile` creates build environment from the scratch. It should be built manually and pushed to DockerHub
+`Dockerfile-initial` creates build environment from the scratch. It should be built manually and pushed to DockerHub
 
-`Dockerfile-travis` is used by Travis. It's based on pre-built image from `Dockerfile` on DockerHub
+`Dockerfile-travis` is used by Travis. It's based on pre-built image from `Dockerfile-initial` on DockerHub
 
 ### Create docker image
 
-**Dockerfile-dev-base**: base image, which contains basic env setup (compiler, build tools)
+**Dockerfile-dev-base**: base image, which contains basic environment setup (compiler, build tools)
 
 `docker build -t cpp-dev-base -f tools/Dockerfile-dev-base .`
 
@@ -125,10 +122,10 @@ Steps to prepare image for Travis
 
 ```
 docker build -t cpp-dev-base -f tools/Dockerfile-dev-base .
-docker build -t travis-build-cpputils -f tools/Dockerfile-initial .
-docker login
 docker tag cpp-dev-base $DOCKER_ID_USER/cpp-dev-base
+docker build -t travis-build-cpputils -f tools/Dockerfile-initial .
 docker tag travis-build-cpputils $DOCKER_ID_USER/dev-cpputils
+docker login
 docker push $DOCKER_ID_USER/cpp-dev-base
 docker push $DOCKER_ID_USER/dev-cpputils
 ```
