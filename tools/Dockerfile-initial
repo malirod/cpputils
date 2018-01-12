@@ -2,7 +2,6 @@ FROM malirod/cpp-dev-base
 
 ENV HOME /root
 ENV PROJECT_ROOT $HOME/project
-ENV PATH $NINJA_ROOT:$PATH
 
 ADD . $PROJECT_ROOT
 
