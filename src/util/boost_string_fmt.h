@@ -10,17 +10,17 @@
 namespace rms {
 namespace util {
 
-class StringFmt {
+class BoostStringFmt {
  public:
   // Deleted because of clang-tidy warning: misc-forwarding-reference-overload
-  StringFmt(const StringFmt&) = delete;
-  StringFmt(StringFmt&&) = delete;
+  BoostStringFmt(const BoostStringFmt&) = delete;
+  BoostStringFmt(BoostStringFmt&&) = delete;
 
   template <typename T>
-  explicit StringFmt(T&& fmt);
+  explicit BoostStringFmt(T&& fmt);
 
   template <typename T>
-  StringFmt& operator<<(const T& arg);
+  BoostStringFmt& operator<<(const T& arg);
 
   template <typename T>
   std::string format(T arg);
@@ -38,28 +38,28 @@ class StringFmt {
 }  // namespace rms
 
 template <typename T>
-rms::util::StringFmt::StringFmt(T&& fmt) : fmt_(std::forward<T>(fmt)) {}
+rms::util::BoostStringFmt::BoostStringFmt(T&& fmt) : fmt_(std::forward<T>(fmt)) {}
 
 template <typename T>
-rms::util::StringFmt& rms::util::StringFmt::operator<<(const T& arg) {
+rms::util::BoostStringFmt& rms::util::BoostStringFmt::operator<<(const T& arg) {
   fmt_ % arg;
   return *this;
 }
 
 template <typename T>
-std::string rms::util::StringFmt::format(T arg) {
+std::string rms::util::BoostStringFmt::format(T arg) {
   *this << arg;
 
   return fmt_.str();
 }
 
 template <typename T, typename... Args>
-std::string rms::util::StringFmt::format(T arg, Args... args) {
+std::string rms::util::BoostStringFmt::format(T arg, Args... args) {
   *this << arg;
 
   return format(args...);
 }
 
-inline rms::util::StringFmt::operator std::string() const {
+inline rms::util::BoostStringFmt::operator std::string() const {
   return fmt_.str();
 }

@@ -41,7 +41,7 @@
 
 #else  // DISABLE_LOGGER
 
-// Strip off log lines lower or qeual DEBUG in DEBUG mode
+// Strip off log lines lower or equal DEBUG in DEBUG mode
 #if defined(CUT_OFF_DEBUG_LOG)
 #define LOG4CPLUS_DISABLE_DEBUG
 #endif  // CUT_OFF_DEBUG_LOG
@@ -51,7 +51,7 @@
 
 #include <iosfwd>
 
-#include "util/string_fmt.h"  // IWYU pragma: export
+#include <fmt/format.h>  // IWYU pragma: export
 
 #define IMPL_LOGGER_CLASS_TYPE_ log4cplus::Logger
 #define IMPL_LOGGER_NAMESPACE_ rms::util::logging
@@ -114,11 +114,11 @@ class LogManager {
 #define LOG_AUTO_TRACEL(logger, message) LOG4CPLUS_TRACE_METHOD(logger, message)
 #define LOG_AUTO_TRACE() LOG_AUTO_TRACEL(GetLogger(), LOG4CPLUS_TEXT(__func__))
 
-#define LOG_TRACEF(text, ...) LOG_TRACEL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
-#define LOG_DEBUGF(text, ...) LOG_DEBUGL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
-#define LOG_INFOF(text, ...) LOG_INFOL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
-#define LOG_WARNF(text, ...) LOG_WARNL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
-#define LOG_ERRORF(text, ...) LOG_ERRORL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
-#define LOG_FATALF(text, ...) LOG_FATALL(GetLogger(), rms::util::StringFmt(text).format(__VA_ARGS__))
+#define LOG_TRACEF(text, ...) LOG_TRACEL(GetLogger(), fmt::format(text, __VA_ARGS__))
+#define LOG_DEBUGF(text, ...) LOG_DEBUGL(GetLogger(), fmt::format(text, __VA_ARGS__))
+#define LOG_INFOF(text, ...) LOG_INFOL(GetLogger(), fmt::format(text, __VA_ARGS__))
+#define LOG_WARNF(text, ...) LOG_WARNL(GetLogger(), fmt::format(text, __VA_ARGS__))
+#define LOG_ERRORF(text, ...) LOG_ERRORL(GetLogger(), fmt::format(text, __VA_ARGS__))
+#define LOG_FATALF(text, ...) LOG_FATALL(GetLogger(), fmt::format(text, __VA_ARGS__))
 
 #endif
