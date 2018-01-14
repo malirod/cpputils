@@ -3,7 +3,7 @@
 #include "util/logger.h"
 #include <gtest/gtest.h>
 #include <cstdio>
-#include <fstream>  // IWYU pragma: keep
+#include <fstream>
 #include <string>
 
 DECLARE_GLOBAL_GET_LOGGER("Logger.Global")
@@ -102,12 +102,12 @@ class Bar {
     const std::size_t index1 = 17;
     // cppcheck-suppress unreadVariable
     const std::size_t index2 = 18;
-    LOG_TRACEF("Trace class line. Number #%1%, #%2%", index1, index2);
-    LOG_DEBUGF("Debug class line. Number #%1%, #%2%", index1, index2);
-    LOG_INFOF("Info class line. Number #%1%, #%2%", index1, index2);
-    LOG_WARNF("Warn class line. Number #%1%, #%2%", index1, index2);
-    LOG_ERRORF("Error class line. Number #%1%, #%2%", index1, index2);
-    LOG_FATALF("Fatal class line. Number #%1%, #%2%", index1, index2);
+    LOG_TRACEF("Trace class line. Number #{}, #{}", index1, index2);
+    LOG_DEBUGF("Debug class line. Number #{}, #{}", index1, index2);
+    LOG_INFOF("Info class line. Number #{}, #{}", index1, index2);
+    LOG_WARNF("Warn class line. Number #{}, #{}", index1, index2);
+    LOG_ERRORF("Error class line. Number #{}, #{}", index1, index2);
+    LOG_FATALF("Fatal class line. Number #{}, #{}", index1, index2);
   }
 
   static void OutputAutoTrace() {

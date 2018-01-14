@@ -51,10 +51,10 @@ set(CMAKE_CXX_STANDARD 11)
 if (NOT EXISTS "${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         message(STATUS "Setup dependencies with conan (clang)")
-        execute_process(COMMAND conan install ${CMAKE_CURRENT_LIST_DIR} --profile ${CMAKE_CURRENT_LIST_DIR}/tools/conan/profile-clang)
+        execute_process(COMMAND conan install ${CMAKE_CURRENT_LIST_DIR} --profile ${CMAKE_CURRENT_LIST_DIR}/tools/conan/profile-clang --build missing)
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         message(STATUS "Setup dependencies with conan (gcc)")
-        execute_process(COMMAND conan install ${CMAKE_CURRENT_LIST_DIR} --profile ${CMAKE_CURRENT_LIST_DIR}/tools/conan/profile-gcc)
+        execute_process(COMMAND conan install ${CMAKE_CURRENT_LIST_DIR} --profile ${CMAKE_CURRENT_LIST_DIR}/tools/conan/profile-gcc --build missing)
     else()
         set(CONAN_INSTALL_CMD "conan install .. <list-of-settings>")
         message(FATAL_ERROR "Dependencies are not configured. Install dependencies first, e.g. running in build dir: ${CONAN_INSTALL_CMD}")
@@ -85,7 +85,7 @@ set(SRC_LIST
     "src/util/singleton.h"
     "src/util/smartptr_util.h"
     "src/util/static_string.h"
-    "src/util/string_fmt.h"
+    "src/util/boost_string_fmt.h"
     "src/util/type_traits.h")
 
 add_executable(testrunner
@@ -99,7 +99,8 @@ add_executable(testrunner
     "test/util/singleton_test.cc"
     "test/util/smartptr_util_test.cc"
     "test/util/static_string_test.cc"
-    "test/util/string_fmt_test.cc")
+    "test/util/fmt_test.cc"
+    "test/util/boost_string_fmt_test.cc")
 
 add_sanitizers(testrunner)
 
@@ -153,7 +154,7 @@ target_include_directories(testrunner
 
 target_compile_options(testrunner PRIVATE -Wextra -Werror)
 
-target_link_libraries(testrunner PRIVATE CONAN_PKG::gtest CONAN_PKG::log4cplus CONAN_PKG::Boost)
+target_link_libraries(testrunner PRIVATE CONAN_PKG::gtest CONAN_PKG::log4cplus CONAN_PKG::Boost CONAN_PKG::fmt)
 
 add_test(NAME all COMMAND testrunner)
 
