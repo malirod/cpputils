@@ -66,7 +66,7 @@ Run in project root to build debug version with clang
 
 `mkdir build-clang-debug && cd build-clang-debug && cmake .. && make -j$(nproc)`
 
-To build release version with gcc run the follwing command
+To build release version with gcc run the following command
 
 `RUN mkdir build-gcc-release && cd build-gcc-release && cmake -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=Release .. && make -j$(nproc)`
 
@@ -177,4 +177,4 @@ make
 sudo make install
 ```
 
-Once `include-what-you-use` is availabe in the `PATH` the one can check project by invoking `make iwyu`.
+Once `include-what-you-use` is available in the `PATH` the one can check project by invoking `make iwyu`.

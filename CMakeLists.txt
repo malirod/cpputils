@@ -1,47 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
 
-# Prefer Clang compiler
-if (NOT CMAKE_CXX_COMPILER AND NOT CMAKE_C_COMPILER AND NOT DEFINED ENV{CXX} AND NOT DEFINED ENV{CC} )
-    message(STATUS "Compiler is not set explicitly. Using clang++")
-    set(CMAKE_CXX_COMPILER "clang++")
-    set(CMAKE_C_COMPILER "clang")
-endif()
-
-# Configure CCache if available
-find_program(CCACHE_FOUND ccache)
-if(CCACHE_FOUND)
-    message(STATUS "Ccache found. Will be use used.")
-    set(CMAKE_C_COMPILER_LAUNCHER ccache)
-    set(CMAKE_CXX_COMPILER_LAUNCHER ccache)
-endif(CCACHE_FOUND)
-
-# Set a default build type if none was specified
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-    message(STATUS "Setting build type to 'Debug' as none was specified.")
-    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build." FORCE)
-    # Set the possible values of build type for cmake-gui
-    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
-endif()
-
-# Use Gold linker if available
-if (UNIX AND NOT APPLE)
-  execute_process(COMMAND ${CMAKE_CXX_COMPILER}
-                  -fuse-ld=gold -Wl,--version
-                  ERROR_QUIET OUTPUT_VARIABLE ld_version)
-  if ("${ld_version}" MATCHES "GNU gold")
-    message(STATUS "Found Gold linker, use faster linker")
-    set(CMAKE_EXE_LINKER_FLAGS
-        "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=gold")
-    set(CMAKE_SHARED_LINKER_FLAGS
-        "${CMAKE_SHARED_LINKER_FLAGS} -fuse-ld=gold")
-  endif()
-endif()
+include(cmake/cmake-common-utils/PreferClang.cmake)
+include(cmake/cmake-common-utils/PreferCcache.cmake)
+include(cmake/cmake-common-utils/DefaultDebug.cmake)
+include(cmake/cmake-common-utils/PreferGoldLinker.cmake)
 
 project(cpputils VERSION 1.0 LANGUAGES CXX)
-
-# Must use GNUInstallDirs to install libraries into correct
-# locations on all platforms.
-include(GNUInstallDirs)
 
 set(CMAKE_CXX_STANDARD 11)
 
