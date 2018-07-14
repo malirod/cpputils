@@ -79,8 +79,8 @@ TEST(TestSingleton, SingletonAccessorWithRealClass) {
 }
 
 TEST(TestSingleton, SingletonAccessorWithMockClass) {
-  using ::testing::Invoke;
   using ::testing::_;
+  using ::testing::Invoke;
 
   int fake_id = 10;
 

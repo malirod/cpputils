@@ -172,7 +172,6 @@ TEST_F(TestRVO, RVOWithSharedPtr) {
 }
 
 TEST_F(TestRVO, NRVOWithOneReturn) {
-  auto bar = Bar();
   auto foo = Bar::CreateFoo(100);
   EXPECT_EQ(100, foo.GetData());
   EXPECT_EQ(1, Foo::ctor_cnt);

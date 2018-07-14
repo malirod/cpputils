@@ -71,8 +71,8 @@ add_sanitizers(testrunner)
 add_coverage(testrunner)
 
 # Setup clang-tidy target
-find_program(CLANG_TIDY_EXE NAMES "clang-tidy-5.0" PATHS /usr/bin)
-find_program(RUN_CLANG_TIDY_EXE NAMES "run-clang-tidy.py" PATHS /usr/lib/llvm-5.0/share/clang)
+find_program(CLANG_TIDY_EXE NAMES "clang-tidy")
+find_program(RUN_CLANG_TIDY_EXE NAMES "run-clang-tidy.py" PATHS /usr/lib/llvm-6.0/share/clang)
 
 if (NOT CLANG_TIDY_EXE)
     message(WARNING "clang-tidy not found!")
@@ -108,7 +108,7 @@ endif()
 
 # Setup clang static analyzer
 add_custom_target(clang-static-analyzer
-    COMMAND scan-build --use-analyzer=/usr/bin/clang++-5.0 make
+    COMMAND scan-build --use-analyzer=/usr/bin/clang++-6.0 make
     VERBATIM)
 
 target_include_directories(testrunner
@@ -118,7 +118,7 @@ target_include_directories(testrunner
 
 target_compile_options(testrunner PRIVATE -Wextra -Werror)
 
-target_link_libraries(testrunner PRIVATE CONAN_PKG::gtest CONAN_PKG::log4cplus CONAN_PKG::Boost CONAN_PKG::fmt)
+target_link_libraries(testrunner PRIVATE CONAN_PKG::gtest CONAN_PKG::log4cplus CONAN_PKG::boost CONAN_PKG::fmt)
 
 add_test(NAME all COMMAND testrunner)
 

@@ -4,12 +4,3 @@
 [submodule "cmake/CMake-codecov"]
 	path = cmake/CMake-codecov
 	url = https://github.com/RWTH-HPC/CMake-codecov.git
-[submodule "tools/conan/recipe/conan-gtest"]
-	path = tools/conan/recipe/conan-gtest
-	url = https://github.com/malirod/conan-gtest.git
-[submodule "tools/conan/recipe/conan-log4cplus"]
-	path = tools/conan/recipe/conan-log4cplus
-	url = https://github.com/malirod/conan-log4cplus.git
-[submodule "tools/conan/recipe/conan-boost"]
-	path = tools/conan/recipe/conan-boost
-	url = https://github.com/malirod/conan-boost.git
