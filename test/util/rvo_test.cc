@@ -1,12 +1,11 @@
-// Copyright [2017] <Malinovsky Rodion>
+// Copyright [2018] <Malinovsky Rodion>
 
 #include <gtest/gtest.h>
-#include <algorithm>
 #include <cstddef>
 #include <ctime>
 #include <memory>
+#include <utility>
 #include <vector>
-#include "util/smartptr_util.h"
 
 namespace {
 
@@ -71,7 +70,7 @@ class Bar {
     auto result = UniqueFooType();
     result.reserve(size);
     for (std::size_t i = 0u; i < size; ++i) {
-      auto item = rms::util::make_unique<Foo>();
+      auto item = std::make_unique<Foo>();
       item->SetData(data);
       result.emplace_back(std::move(item));
     }
@@ -172,7 +171,6 @@ TEST_F(TestRVO, RVOWithSharedPtr) {
 }
 
 TEST_F(TestRVO, NRVOWithOneReturn) {
-  auto bar = Bar();
   auto foo = Bar::CreateFoo(100);
   EXPECT_EQ(100, foo.GetData());
   EXPECT_EQ(1, Foo::ctor_cnt);

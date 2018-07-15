@@ -1,4 +1,4 @@
-// Copyright [2017] <Malinovsky Rodion>
+// Copyright [2018] <Malinovsky Rodion>
 
 #include "util/singleton.h"
 #include <gmock/gmock.h>
@@ -79,8 +79,8 @@ TEST(TestSingleton, SingletonAccessorWithRealClass) {
 }
 
 TEST(TestSingleton, SingletonAccessorWithMockClass) {
-  using ::testing::Invoke;
   using ::testing::_;
+  using ::testing::Invoke;
 
   int fake_id = 10;
 

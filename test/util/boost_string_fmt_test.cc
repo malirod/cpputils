@@ -1,4 +1,4 @@
-// Copyright [2017] <Malinovsky Rodion>
+// Copyright [2018] <Malinovsky Rodion>
 
 #include "util/boost_string_fmt.h"
 #include <gtest/gtest.h>

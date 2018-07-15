@@ -41,7 +41,7 @@ echo -e "$TEXT_INFO" "Checking cpp style with clang-format" "$TEXT_DEFAULT"
 # set path to clang-format binary
 CLANG_FORMAT=$(command -v clang-format)
 # Verify clang-format. Note: 3.6 and 3.7 produces different formatting for the same config
-CLANG_FORMAT_REQUIRED_VERSION=5.
+CLANG_FORMAT_REQUIRED_VERSION=6.
 CLANG_FORMAT_CURRENT_VERSION=$($CLANG_FORMAT -version)
 
 # remove any older patches from previous commits. Set to true or false.
@@ -151,7 +151,7 @@ echo -e "$TEXT_INFO" "PASSED" "$TEXT_DEFAULT"
 echo -e "$TEXT_INFO" "Checking cpp code with cppcheck" "$TEXT_DEFAULT"
 
 if [ -n "$CPP_FILES" ]; then
-    tools/cppcheck/cppcheck -j $(nproc) --error-exitcode=1 --std=c++11 --std=posix --platform=unix64 --enable=warning,style,performance,portability,information,missingInclude --template='{id}:{file}:{line} {message}' --suppressions-list=tools/cppcheck/suppressions --inline-suppr --inconclusive -Isrc $CPP_FILES
+    tools/cppcheck/cppcheck -j $(nproc) --error-exitcode=1 --language=c++ --std=c++11 --std=posix --platform=unix64 --enable=warning,style,performance,portability,information,missingInclude --template='{id}:{file}:{line} {message}' --suppressions-list=tools/cppcheck/suppressions --inline-suppr --inconclusive -Isrc $CPP_FILES
 
     if [ "$?" -ne "0" ]; then
         echo -e "$TEXT_ERROR" "Cppcheck reports about issues in cpp files" "$TEXT_DEFAULT"

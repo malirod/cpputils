@@ -5,7 +5,7 @@ Different utils \ helpers in C++11. Boost is used.
 
 ## Platform
 
-Ubuntu 16.04: Clang 5.0, GCC 5.4, Cmake 3.5, Conan
+Ubuntu 18.04: Clang 6.0, GCC 7.3, Cmake 3.10.2, Conan 1.5.2
 
 C++11 Standard is used.
 
@@ -15,11 +15,17 @@ See `tools/Dockerfile-dev-base` for details how to setup development environment
 
 Assuming all further commands are executed from project root.
 
+
 ### Initial setup (post clone)
 
 Get sub-modules with the following command
 
 `git submodule update --init --recursive`
+
+Following clang utils are required
+
+- clang-format (`sudo apt install clang-format`)
+- clang static analyzer (`sudo apt install clang-tools`)
 
 #### Setup git hook
 
@@ -35,13 +41,25 @@ Install conan with
 
 `sudo -H pip install conan`
 
-To get dependencies from remote repository run command in project root
+Add additional repositories to conan:
 
-`tools/conan/build.py`
+- `conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan`
 
-Before calling cmake to generate build files generate cmake files for dependencies (from build dir)
+Cmake will automatically check required dependencies and setup them taking into account current compiler (clang or gcc). To tune profiles consider changing `tools/conan/profile-clang` or `tools/conan/profile-gcc`
 
-`conan install .. --profile ../tools/conan/profile-clang`
+To make pre-build dependencies run conan manually from build dirs. E.g. run from project root
+
+```
+mkdir build-clang && cd build-clang
+conan install .. --profile ../tools/conan/profile-clang --build missing
+cd ..
+mkdir build-gcc && cd build-gcc
+conan install .. --profile ../tools/conan/profile-gcc --build missing
+```
+
+Dependencies can be setup using custom profile with following command (run from build dir)
+
+`conan install .. --profile ../tools/conan/profile-clang-custom --build missing`
 
 **Hint:** to upload build packages to server use the following commands
 
@@ -136,8 +154,8 @@ Sample command to run analyzer. By default report is stored in `/tmp/scan-build*
 ```
 mkdir build-debug
 cd build-debug
-scan-build --use-analyzer=/usr/bin/clang++-5.0 cmake ..
-scan-build --use-analyzer=/usr/bin/clang++-5.0 make -j$(nproc)
+scan-build --use-analyzer=/usr/bin/clang++-6.0 cmake ..
+scan-build --use-analyzer=/usr/bin/clang++-6.0 make -j$(nproc)
 ```
 
 or
@@ -155,24 +173,23 @@ Setting are stored in `.clang-tidy`.
 Run
 
 ```
-mkdir build
-cd build
+mkdir build && cd build
 cmake ..
 make clang-tidy
 ```
 
 ### Include-What-You-Use
 
-Setup for CLang 5.0
+Setup for CLang 6.0
 
 Prepare IWYU
 
 ```
-sudo apt install libncurses5-dev libclang-5.0-dev libz-dev
+sudo apt install libncurses-dev libclang-dev libz-dev
 git clone https://github.com/include-what-you-use/include-what-you-use.git
-git checkout -b clang_5.0 origin/clang_5.0
+git checkout -b clang_6.0 origin/clang_6.0
 mkdir build && cd build
-cmake -DIWYU_LLVM_ROOT_PATH=/usr/lib/llvm-5.0 -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ ..
+cmake -DIWYU_LLVM_ROOT_PATH=/usr/lib/llvm-6.0 -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ ..
 make
 sudo make install
 ```

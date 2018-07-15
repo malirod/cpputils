@@ -7,13 +7,12 @@ ADD . $PROJECT_ROOT
 
 WORKDIR $PROJECT_ROOT
 
-# Setup dependencies
-# Use private repository only to speed up setup and aviod build of packs from public repositories
-RUN conan remote remove conan-center
-RUN conan remote remove conan-transit
-RUN tools/conan/build.py
-
 RUN mkdir build-clang-debug
+RUN cd build-clang-debug && conan install .. --profile ../tools/conan/profile-clang --build missing && cd ..
+
 RUN mkdir build-clang-release
+
 RUN mkdir build-gcc-debug
+RUN cd build-gcc-debug && conan install .. --profile ../tools/conan/profile-gcc --build missing && cd ..
+
 RUN mkdir build-gcc-release

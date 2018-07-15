@@ -1,4 +1,4 @@
-// Copyright [2017] <Malinovsky Rodion>
+// Copyright [2018] <Malinovsky Rodion>
 
 #pragma once
 
@@ -14,8 +14,6 @@ struct FunctionTraits : public FunctionTraits<decltype(&T::operator())> {};
 template <typename ClassType, typename ReturnType, typename... Args>
 struct FunctionTraits<ReturnType (ClassType::*)(Args...) const> {
   typedef ReturnType resultType;
-
-  constexpr static const std::size_t argsCount = sizeof...(Args);
 
   template <std::size_t N>
   struct arg {

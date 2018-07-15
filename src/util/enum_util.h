@@ -1,4 +1,4 @@
-// Copyright [2017] <Malinovsky Rodion>
+// Copyright [2018] <Malinovsky Rodion>
 
 #pragma once
 
@@ -28,12 +28,12 @@ constexpr inline typename std::enable_if<std::is_enum<E>::value && std::is_integ
   return static_cast<E>(value);
 }
 
-  /*
-   * Reason for warning ignore.
-   * In 3.9 clang introduced warning (-Wundefined-var-template) which
-   * prevents main idea of enum util: split enum utils and filling Storage
-   * in enum's cpp file via template specialization.
-   */
+/*
+ * Reason for warning ignore.
+ * In 3.9 clang introduced warning (-Wundefined-var-template) which
+ * prevents main idea of enum util: split enum utils and filling Storage
+ * in enum's cpp file via template specialization.
+ */
 
 #pragma clang diagnostic push
 #if defined(__clang__) and (((__clang_major__ > 3) and (__clang_minor__ >= 9)) or __clang_major__ > 3)
