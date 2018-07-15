@@ -7,7 +7,7 @@ include(cmake/cmake-common-utils/PreferGoldLinker.cmake)
 
 project(cpputils VERSION 1.0 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 
 # Manage dependencies
 
@@ -47,7 +47,6 @@ set(SRC_LIST
     "src/util/logger.h"
     "src/util/scope_guard.h"
     "src/util/singleton.h"
-    "src/util/smartptr_util.h"
     "src/util/static_string.h"
     "src/util/boost_string_fmt.h"
     "src/util/type_traits.h")
@@ -61,7 +60,6 @@ add_executable(testrunner
     "test/util/rvo_test.cc"
     "test/util/scope_guard_test.cc"
     "test/util/singleton_test.cc"
-    "test/util/smartptr_util_test.cc"
     "test/util/static_string_test.cc"
     "test/util/fmt_test.cc"
     "test/util/boost_string_fmt_test.cc")
