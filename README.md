@@ -51,15 +51,15 @@ To make pre-build dependencies run conan manually from build dirs. E.g. run from
 
 ```
 mkdir build-clang && cd build-clang
-conan install .. --profile ../tools/conan/profile-clang
+conan install .. --profile ../tools/conan/profile-clang --build missing
 cd ..
 mkdir build-gcc && cd build-gcc
-conan install .. --profile ../tools/conan/profile-gcc
+conan install .. --profile ../tools/conan/profile-gcc --build missing
 ```
 
 Dependencies can be setup using custom profile with following command (run from build dir)
 
-`conan install .. --profile ../tools/conan/profile-clang-custom`
+`conan install .. --profile ../tools/conan/profile-clang-custom --build missing`
 
 **Hint:** to upload build packages to server use the following commands
 

@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 ENV HOME /root
 
@@ -11,39 +11,25 @@ RUN apt install -y g++
 RUN apt install -y make
 RUN apt install -y ccache
 RUN apt install -y libz-dev
-RUN apt install -y libncurses5-dev
+RUN apt install -y libncurses-dev
 RUN apt install -y libcurl4-openssl-dev
 RUN apt install -y re2c
+RUN apt install -y cmake
 
-# Install Clang-5.0
-RUN apt install -y clang-5.0
-RUN apt install -y clang-format-5.0
-RUN apt install -y clang-tidy-5.0
-RUN apt install -y libclang-5.0-dev
-
-# Make clang-5.0 default clang compiler
-RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-5.0 50
-RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-5.0 50
-RUN update-alternatives --install /usr/bin/llvm-symbolizer llvm-symbolizer /usr/bin/llvm-symbolizer-5.0 50
-RUN update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-5.0 50
-
-# Install CMake
-RUN wget https://cmake.org/files/v3.10/cmake-3.10.0.tar.gz && tar -xzf cmake-3.10.0.tar.gz && cd cmake-3.10.0 && ./bootstrap --system-curl && make -j$(nproc) && make install
-
-# Install Ninja
-ENV NINJA_ROOT $HOME/ninja
-ENV PATH $NINJA_ROOT:$PATH
-RUN git clone https://github.com/ninja-build/ninja.git $NINJA_ROOT
-RUN cd $NINJA_ROOT && ./configure.py --bootstrap
+# Install Clang-6.0 (default in 18.04)
+RUN apt install -y clang
+RUN apt install -y clang-format
+RUN apt install -y clang-tidy
+RUN apt install -y libclang-dev
 
 # Install Include-What-You-Use
 RUN git clone https://github.com/include-what-you-use/include-what-you-use.git
-RUN cd include-what-you-use && git checkout -b clang_5.0 origin/clang_5.0 && mkdir build && cd build && cmake -DIWYU_LLVM_ROOT_PATH=/usr/lib/llvm-5.0 -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ .. && make -j$(nproc) && make install
+RUN cd include-what-you-use && git checkout -b clang_6.0 origin/clang_6.0 && mkdir build && cd build && cmake -DIWYU_LLVM_ROOT_PATH=/usr/lib/llvm-6.0 -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ .. && make -j$(nproc) && make install
 
 # Install Conan
 RUN apt install -y python-pip
 RUN pip install conan
-RUN conan remote add malirod-stable https://api.bintray.com/conan/malirod/stable
+RUN conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
 RUN apt install -y mc
 RUN ldconfig
