@@ -195,3 +195,12 @@ sudo make install
 ```
 
 Once `include-what-you-use` is available in the `PATH` the one can check project by invoking `make iwyu`.
+
+### YouCompleteMe
+
+Setup dependencies with conan and build project. Move and rename config file and additional json file to project root.
+
+```
+cp <biuld dir>/conan_ycm_extra_conf.py <project root>/.ycm_extra_conf.py
+cp <biuld dir>/conan_ycm_flags.json <project root>/conan_ycm_flags.json
+```

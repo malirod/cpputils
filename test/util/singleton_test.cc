@@ -71,9 +71,6 @@ TEST(TestSingleton, SingletonAccessorWithRealClass) {
   ASSERT_EQ(scheduler_foo.GetId(), 0);
   scheduler_foo.SetId(5);
 
-  auto& scheduler_foo_new = rms::util::single<SchedulerFoo>();
-  ASSERT_EQ(scheduler_foo_new.GetId(), 5);
-
   single_accessor.Detach();
   ASSERT_FALSE(single_accessor.GetIsAttached());
 }
