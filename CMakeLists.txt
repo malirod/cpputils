@@ -49,7 +49,8 @@ set(SRC_LIST
     "src/util/singleton.h"
     "src/util/static_string.h"
     "src/util/boost_string_fmt.h"
-    "src/util/type_traits.h")
+    "src/util/type_traits.h"
+    "src/util/cloneable.h")
 
 add_executable(testrunner
     "${SRC_LIST}"
@@ -62,7 +63,8 @@ add_executable(testrunner
     "test/util/singleton_test.cc"
     "test/util/static_string_test.cc"
     "test/util/fmt_test.cc"
-    "test/util/boost_string_fmt_test.cc")
+    "test/util/boost_string_fmt_test.cc"
+    "test/util/cloneable_test.cc")
 
 add_sanitizers(testrunner)
 
