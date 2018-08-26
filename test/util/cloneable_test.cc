@@ -203,3 +203,99 @@ TEST(TestCloneable, TestSharedWithDefaultDTor) {
   c->Clone(*b);
   EXPECT_EQ(test_data2, c->GetData());
 }
+
+namespace {
+
+class IBaseUser : public rms::util::IWithCloningOf<IBaseUser> {
+ public:
+  virtual ~IBaseUser() = default;
+  virtual std::string GetName() const = 0;
+  virtual void SetName(const std::string& name) = 0;
+  virtual int GetId() const = 0;
+  virtual void SetId(const int id) = 0;
+  virtual IBaseUser* GetChild() = 0;
+  virtual void SetChild(std::shared_ptr<IBaseUser> child) = 0;
+};
+
+class User : public rms::util::WithCloningOf<IBaseUser, User> {
+ public:
+  User() = default;
+
+  User(const std::string& name, const int id, std::shared_ptr<IBaseUser> child)
+      : name_(name), id_(id), child_(std::move(child)) {}
+
+  User(const std::string& name, const int id) : name_(name), id_(id), child_() {}
+
+  // Cloneable must copy constructable
+  User(const User& rhs) : name_(rhs.name_), id_(rhs.id_) {
+    if (rhs.child_) {
+      // Just ensure that copy will have separate pointer
+      child_ = std::make_shared<User>(rhs.child_->GetName(), rhs.child_->GetId());
+    }
+  }
+
+  User& operator=(const User& rhs) {
+    using std::swap;
+    User tmp(rhs);
+    swap(*this, tmp);
+    return *this;
+  }
+
+  std::string GetName() const override {
+    return name_;
+  }
+  void SetName(const std::string& name) override {
+    name_ = name;
+  }
+  int GetId() const override {
+    return id_;
+  }
+  void SetId(const int id) override {
+    id_ = id;
+  }
+  IBaseUser* GetChild() override {
+    return child_.get();
+  }
+  void SetChild(std::shared_ptr<IBaseUser> child) override {
+    child_ = std::move(child);
+  }
+
+ private:
+  std::string name_ = "";
+  int id_ = 0;
+  std::shared_ptr<IBaseUser> child_;
+};
+
+std::unique_ptr<IBaseUser> CreateUser(const std::string& name, const int id) {
+  return std::make_unique<User>(name, id, std::make_shared<User>("child_" + name, id * 100));
+}
+
+}  // namespace
+
+TEST(TestCloneable, TestCloneUser) {
+  // Create unique ptr to interface. No knowledge about concrete class.
+  auto user1 = CreateUser("user_1", 1);
+  static_assert(std::is_same<std::unique_ptr<IBaseUser>, decltype(user1)>::value,
+                "CreateUser result should return std::unique_ptr<IBaseUser>");
+  EXPECT_EQ("user_1", user1->GetName());
+  EXPECT_EQ(1, user1->GetId());
+  EXPECT_EQ("child_user_1", user1->GetChild()->GetName());
+  EXPECT_EQ(100, user1->GetChild()->GetId());
+
+  // Clone concrete class from interface
+  auto user2 = rms::util::Clone(*user1);
+  static_assert(std::is_same<std::unique_ptr<IBaseUser>, decltype(user2)>::value,
+                "CreateUser result should return std::unique_ptr<IBaseUser>");
+
+  // Change original values
+  user1->SetName("new_user1");
+  user1->SetId(2);
+  user1->GetChild()->SetName("new_child");
+  user1->GetChild()->SetId(22);
+
+  // Ensure clonned object is not affected
+  EXPECT_EQ("user_1", user2->GetName());
+  EXPECT_EQ(1, user2->GetId());
+  EXPECT_EQ("child_user_1", user2->GetChild()->GetName());
+  EXPECT_EQ(100, user2->GetChild()->GetId());
+}
