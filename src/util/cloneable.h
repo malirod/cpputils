@@ -31,6 +31,8 @@ class IWithCloningOf {
   virtual void Clone(const Derived& other) = 0;
 
  protected:
+  // Prevent destruction via Cloneable.
+  // This way no need in virtual destructor.
   // cppcheck-suppress virtualDestructor
   ~IWithCloningOf() = default;
 
