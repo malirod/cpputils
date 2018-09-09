@@ -206,37 +206,37 @@ TEST(TestCloneable, TestSharedWithDefaultDTor) {
 
 namespace {
 
-class IBaseUser : public rms::util::IWithCloningOf<IBaseUser> {
+class IUser : public rms::util::IWithCloningOf<IUser> {
  public:
-  virtual ~IBaseUser() = default;
+  virtual ~IUser() = default;
   virtual std::string GetName() const = 0;
   virtual void SetName(const std::string& name) = 0;
   virtual int GetId() const = 0;
   virtual void SetId(const int id) = 0;
-  virtual IBaseUser* GetChild() = 0;
-  virtual void SetChild(std::shared_ptr<IBaseUser> child) = 0;
+  virtual IUser* GetChild() = 0;
+  virtual void SetChild(std::unique_ptr<IUser> child) = 0;
 };
 
-class User : public rms::util::WithCloningOf<IBaseUser, User> {
+class MysqlUser : public rms::util::WithCloningOf<IUser, MysqlUser> {
  public:
-  User() = default;
+  MysqlUser() = default;
 
-  User(const std::string& name, const int id, std::shared_ptr<IBaseUser> child)
+  MysqlUser(const std::string& name, const int id, std::unique_ptr<IUser> child)
       : name_(name), id_(id), child_(std::move(child)) {}
 
-  User(const std::string& name, const int id) : name_(name), id_(id), child_() {}
+  MysqlUser(const std::string& name, const int id) : name_(name), id_(id), child_() {}
 
   // Cloneable must copy constructable
-  User(const User& rhs) : name_(rhs.name_), id_(rhs.id_) {
+  MysqlUser(const MysqlUser& rhs) : name_(rhs.name_), id_(rhs.id_) {
     if (rhs.child_) {
       // Just ensure that copy will have separate pointer
-      child_ = std::make_shared<User>(rhs.child_->GetName(), rhs.child_->GetId());
+      child_ = std::make_unique<MysqlUser>(rhs.child_->GetName(), rhs.child_->GetId());
     }
   }
 
-  User& operator=(const User& rhs) {
+  MysqlUser& operator=(const MysqlUser& rhs) {
     using std::swap;
-    User tmp(rhs);
+    MysqlUser tmp(rhs);
     swap(*this, tmp);
     return *this;
   }
@@ -253,21 +253,46 @@ class User : public rms::util::WithCloningOf<IBaseUser, User> {
   void SetId(const int id) override {
     id_ = id;
   }
-  IBaseUser* GetChild() override {
+  IUser* GetChild() override {
     return child_.get();
   }
-  void SetChild(std::shared_ptr<IBaseUser> child) override {
+  void SetChild(std::unique_ptr<IUser> child) override {
     child_ = std::move(child);
+  }
+
+  // Implementation specific methods. Do some job.
+  bool DoAuth(const std::string& key) {
+    if (key.empty())
+      return false;
+    return true;
   }
 
  private:
   std::string name_ = "";
   int id_ = 0;
-  std::shared_ptr<IBaseUser> child_;
+  std::unique_ptr<IUser> child_;
 };
 
-std::unique_ptr<IBaseUser> CreateUser(const std::string& name, const int id) {
-  return std::make_unique<User>(name, id, std::make_shared<User>("child_" + name, id * 100));
+std::unique_ptr<IUser> CreateUser(const std::string& name, const int id) {
+  return std::make_unique<MysqlUser>(name, id, std::make_unique<MysqlUser>("child_" + name, id * 100));
+}
+
+std::unique_ptr<IUser> CreateUser(int choice) {
+  static auto default_user_proto = CreateUser("default", 0);
+  static auto user_1_proto = CreateUser("user_1", 1);
+  static auto user_2_proto = CreateUser("user_2", 2);
+  static auto user_3_proto = CreateUser("user_3", 3);
+
+  switch (choice) {
+    case 1:
+      return rms::util::Clone(*user_1_proto);
+    case 2:
+      return rms::util::Clone(*user_2_proto);
+    case 3:
+      return rms::util::Clone(*user_3_proto);
+    default:
+      return rms::util::Clone(*default_user_proto);
+  }
 }
 
 }  // namespace
@@ -275,7 +300,7 @@ std::unique_ptr<IBaseUser> CreateUser(const std::string& name, const int id) {
 TEST(TestCloneable, TestCloneUser) {
   // Create unique ptr to interface. No knowledge about concrete class.
   auto user1 = CreateUser("user_1", 1);
-  static_assert(std::is_same<std::unique_ptr<IBaseUser>, decltype(user1)>::value,
+  static_assert(std::is_same<std::unique_ptr<IUser>, decltype(user1)>::value,
                 "CreateUser result should return std::unique_ptr<IBaseUser>");
   EXPECT_EQ("user_1", user1->GetName());
   EXPECT_EQ(1, user1->GetId());
@@ -284,7 +309,7 @@ TEST(TestCloneable, TestCloneUser) {
 
   // Clone concrete class from interface
   auto user2 = rms::util::Clone(*user1);
-  static_assert(std::is_same<std::unique_ptr<IBaseUser>, decltype(user2)>::value,
+  static_assert(std::is_same<std::unique_ptr<IUser>, decltype(user2)>::value,
                 "CreateUser result should return std::unique_ptr<IBaseUser>");
 
   // Change original values
@@ -298,4 +323,16 @@ TEST(TestCloneable, TestCloneUser) {
   EXPECT_EQ(1, user2->GetId());
   EXPECT_EQ("child_user_1", user2->GetChild()->GetName());
   EXPECT_EQ(100, user2->GetChild()->GetId());
+}
+
+TEST(TestCloneable, TestCloneUserPrototypePattern) {
+  for (int i = 1; i <= 3; ++i) {
+    auto user = CreateUser(i);
+    static_assert(std::is_same<std::unique_ptr<IUser>, decltype(user)>::value,
+                  "CreateUser result should return std::unique_ptr<IBaseUser>");
+    EXPECT_EQ("user_" + std::to_string(i), user->GetName());
+    EXPECT_EQ(i, user->GetId());
+    EXPECT_EQ("child_user_" + std::to_string(i), user->GetChild()->GetName());
+    EXPECT_EQ(i * 100, user->GetChild()->GetId());
+  }
 }

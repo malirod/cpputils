@@ -64,7 +64,8 @@ add_executable(testrunner
     "test/util/static_string_test.cc"
     "test/util/fmt_test.cc"
     "test/util/boost_string_fmt_test.cc"
-    "test/util/cloneable_test.cc")
+    "test/util/cloneable_test.cc"
+    "test/misc/inter_layer_test")
 
 add_sanitizers(testrunner)
 
