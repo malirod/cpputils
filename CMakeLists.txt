@@ -29,7 +29,7 @@ endif()
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup(TARGETS)
 
-# Add possibility to sinitize code
+# Add possibility to sanitize code
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/sanitizers-cmake/cmake/")
 find_package(Sanitizers REQUIRED)
 

@@ -1,5 +1,5 @@
 [requires]
-gtest/1.8.0@bincrafters/stable
+gtest/1.8.1@bincrafters/stable
 log4cplus/2.0.2@bincrafters/stable
 boost/1.68.0@conan/stable
 fmt/5.1.0@bincrafters/stable
