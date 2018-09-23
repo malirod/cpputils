@@ -48,3 +48,5 @@ compile_commands.json
 conan_ycm_flags.json
 
 CMakeLists.txt.user
+
+.vscode

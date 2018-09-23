@@ -1,6 +1,7 @@
+# cpputils
+
 [![Build Status](https://travis-ci.org/malirod/cpputils.svg?branch=master)](https://travis-ci.org/malirod/cpputils)
 
-# cpputils
 Different utils \ helpers in C++11. Boost is used.
 
 ## Platform
@@ -14,7 +15,6 @@ See `tools/Dockerfile-dev-base` for details how to setup development environment
 ## Setup
 
 Assuming all further commands are executed from project root.
-
 
 ### Initial setup (post clone)
 
@@ -49,7 +49,7 @@ Cmake will automatically check required dependencies and setup them taking into 
 
 To make pre-build dependencies run conan manually from build dirs. E.g. run from project root
 
-```
+```bash
 mkdir build-clang && cd build-clang
 conan install .. --profile ../tools/conan/profile-clang --build missing
 cd ..
@@ -63,7 +63,7 @@ Dependencies can be setup using custom profile with following command (run from 
 
 **Hint:** to upload build packages to server use the following commands
 
-```
+```bash
 conan remote add <REMOTE> https://api.bintray.com/conan/malirod/stable
 conan user -p <APIKEY> -r <REMOTE> <USERNAME>
 conan install . -r <REMOTE>
@@ -76,7 +76,7 @@ conan upload "*" -r <REMOTE> --all
 
 ## Build
 
-#### Build commands
+### Build commands
 
 By default used clang compiler and debug mode.
 
@@ -112,7 +112,7 @@ Collect coverage in Debug mode. Tested with gcc 5.0 and clang 5.0 compiler.
 
 ### Sample commands to get coverage html report
 
-```
+```bash
 CXX=g++ cmake -DENABLE_COVERAGE=On -DCMAKE_BUILD_TYPE=Debug ..
 make -j$(nproc)
 make test
@@ -138,7 +138,7 @@ xdg-open lcov/html/testrunner/index.html
 
 Steps to prepare image for Travis
 
-```
+```bash
 docker build -t cpp-dev-base -f tools/Dockerfile-dev-base .
 docker tag cpp-dev-base $DOCKER_ID_USER/cpp-dev-base
 docker build -t travis-build-cpputils -f tools/Dockerfile-initial .
@@ -147,11 +147,12 @@ docker login
 docker push $DOCKER_ID_USER/cpp-dev-base
 docker push $DOCKER_ID_USER/dev-cpputils
 ```
+
 ### Clang static analyzer
 
 Sample command to run analyzer. By default report is stored in `/tmp/scan-build*`
 
-```
+```bash
 mkdir build-debug
 cd build-debug
 scan-build --use-analyzer=/usr/bin/clang++-6.0 cmake ..
@@ -160,8 +161,7 @@ scan-build --use-analyzer=/usr/bin/clang++-6.0 make -j$(nproc)
 
 or
 
-
-```
+```bash
 cmake ..
 make clang-static-analyzer
 ```
@@ -172,7 +172,7 @@ Setting are stored in `.clang-tidy`.
 
 Run
 
-```
+```bash
 mkdir build && cd build
 cmake ..
 make clang-tidy
@@ -184,7 +184,7 @@ Setup for CLang 6.0
 
 Prepare IWYU
 
-```
+```bash
 sudo apt install libncurses-dev libclang-dev libz-dev
 git clone https://github.com/include-what-you-use/include-what-you-use.git
 git checkout -b clang_6.0 origin/clang_6.0
@@ -200,7 +200,7 @@ Once `include-what-you-use` is available in the `PATH` the one can check project
 
 Setup dependencies with conan and build project. Move and rename config file and additional json file to project root.
 
-```
-cp <biuld dir>/conan_ycm_extra_conf.py <project root>/.ycm_extra_conf.py
-cp <biuld dir>/conan_ycm_flags.json <project root>/conan_ycm_flags.json
+```bash
+cp <build dir>/conan_ycm_extra_conf.py <project root>/.ycm_extra_conf.py
+cp <build dir>/conan_ycm_flags.json <project root>/conan_ycm_flags.json
 ```
