@@ -50,3 +50,4 @@ conan_ycm_flags.json
 CMakeLists.txt.user
 
 .vscode
+test_detail.xml
