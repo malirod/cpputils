@@ -73,7 +73,7 @@ add_coverage(testrunner)
 
 # Setup clang-tidy target
 find_program(CLANG_TIDY_EXE NAMES "clang-tidy")
-find_program(RUN_CLANG_TIDY_EXE NAMES "run-clang-tidy.py" PATHS /usr/lib/llvm-6.0/share/clang)
+find_program(RUN_CLANG_TIDY_EXE NAMES "run-clang-tidy.py" PATHS /usr/lib/llvm-7/share/clang)
 
 if (NOT CLANG_TIDY_EXE)
     message(WARNING "clang-tidy not found!")
@@ -109,7 +109,7 @@ endif()
 
 # Setup clang static analyzer
 add_custom_target(clang-static-analyzer
-    COMMAND scan-build --use-analyzer=/usr/bin/clang++-6.0 make
+    COMMAND scan-build --use-analyzer=/usr/bin/clang++-7 make
     VERBATIM)
 
 target_include_directories(testrunner

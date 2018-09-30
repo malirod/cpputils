@@ -11,16 +11,16 @@ class IUser : public rms::util::IWithCloningOf<IUser> {
  public:
   virtual ~IUser() = default;
   virtual std::string GetName() const = 0;
-  virtual void SetName(const std::string& name) = 0;
+  virtual void SetName(std::string name) = 0;
   virtual int GetId() const = 0;
-  virtual void SetId(const int id) = 0;
+  virtual void SetId(int id) = 0;
 };
 
 class MysqlUser : public rms::util::WithCloningOf<IUser, MysqlUser> {
  public:
   MysqlUser() = default;
 
-  MysqlUser(const std::string& name, const int id) : name_(name), id_(id) {}
+  MysqlUser(std::string name, int id) : name_(std::move(name)), id_(id) {}
 
   MysqlUser(const MysqlUser& rhs) : name_(rhs.name_), id_(rhs.id_) {}
 
@@ -35,8 +35,8 @@ class MysqlUser : public rms::util::WithCloningOf<IUser, MysqlUser> {
     return name_;
   }
 
-  void SetName(const std::string& name) override {
-    name_ = name;
+  void SetName(std::string name) override {
+    name_ = std::move(name);
   }
 
   int GetId() const override {
@@ -55,7 +55,7 @@ class MysqlUser : public rms::util::WithCloningOf<IUser, MysqlUser> {
   }
 
  private:
-  std::string name_ = "";
+  std::string name_;
   int id_ = 0;
 };
 
@@ -85,7 +85,7 @@ class DBManager : public IDBManager {
     for (auto& user : users) {
       // Use hack instead of double dispatch to save place
       assert(dynamic_cast<MysqlUser*>(user.get()));
-      auto& mysql_user = static_cast<MysqlUser&>(*user);
+      auto& mysql_user = static_cast<MysqlUser&>(*user);  // NOLINT
       auto authenticated = mysql_user.DoAuth(key);
       if (!authenticated) {
         return false;
@@ -106,7 +106,7 @@ class BusinessUserManager {
  public:
   static bool CreateNewAuthUser(IDBManager& db_manager) {
     auto users = db_manager.GetAuthUsers();
-    assert(users.size() > 0);
+    assert(!users.empty());
 
     auto& user = users[0];
     auto new_user = user->Clone();
@@ -177,8 +177,7 @@ TEST(TestInterLayer, TestAuthUsersWithFakeDBManager) {
       }));
 
   // Act
-  BusinessUserManager business_user_manager;
-  auto done = business_user_manager.CreateNewAuthUser(fake_db_manager);
+  auto done = BusinessUserManager::CreateNewAuthUser(fake_db_manager);
 
   // Assert
   EXPECT_TRUE(done);
