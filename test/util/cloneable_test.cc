@@ -212,7 +212,7 @@ class IUser : public rms::util::IWithCloningOf<IUser> {
   virtual std::string GetName() const = 0;
   virtual void SetName(const std::string& name) = 0;
   virtual int GetId() const = 0;
-  virtual void SetId(const int id) = 0;
+  virtual void SetId(int id) = 0;
   virtual IUser* GetChild() = 0;
   virtual void SetChild(std::unique_ptr<IUser> child) = 0;
 };
@@ -221,10 +221,10 @@ class MysqlUser : public rms::util::WithCloningOf<IUser, MysqlUser> {
  public:
   MysqlUser() = default;
 
-  MysqlUser(const std::string& name, const int id, std::unique_ptr<IUser> child)
-      : name_(name), id_(id), child_(std::move(child)) {}
+  MysqlUser(std::string name, int id, std::unique_ptr<IUser> child)
+      : name_(std::move(name)), id_(id), child_(std::move(child)) {}
 
-  MysqlUser(const std::string& name, const int id) : name_(name), id_(id), child_() {}
+  MysqlUser(std::string name, int id) : name_(std::move(name)), id_(id), child_() {}
 
   // Cloneable must copy constructable
   MysqlUser(const MysqlUser& rhs) : name_(rhs.name_), id_(rhs.id_) {
@@ -262,13 +262,11 @@ class MysqlUser : public rms::util::WithCloningOf<IUser, MysqlUser> {
 
   // Implementation specific methods. Do some job.
   bool DoAuth(const std::string& key) {
-    if (key.empty())
-      return false;
-    return true;
+    return !key.empty();
   }
 
  private:
-  std::string name_ = "";
+  std::string name_;
   int id_ = 0;
   std::unique_ptr<IUser> child_;
 };
@@ -318,7 +316,7 @@ TEST(TestCloneable, TestCloneUser) {
   user1->GetChild()->SetName("new_child");
   user1->GetChild()->SetId(22);
 
-  // Ensure clonned object is not affected
+  // Ensure cloned object is not affected
   EXPECT_EQ("user_1", user2->GetName());
   EXPECT_EQ(1, user2->GetId());
   EXPECT_EQ("child_user_1", user2->GetChild()->GetName());
