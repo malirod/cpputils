@@ -1,9 +1,0 @@
-[
-  { include: [ "\"boost/format/alt_sstream.hpp\"", private, "<boost/format.hpp>", public ] },
-  { include: [ "\"boost/format/alt_sstream_impl.hpp\"", private, "<boost/format.hpp>", public ] },
-  { include: [ "\"boost/format/format_implementation.hpp\"", private, "<boost/format.hpp>", public ] },
-  { include: [ "\"boost/format/format_class.hpp\"", private, "<boost/format.hpp>", public ] },
-  { include: [ "\"boost/format/format_fwd.hpp\"", private, "<boost/format.hpp>", public ] },
-  { include: [ "\"boost/format/parsing.hpp\"", private, "<boost/format.hpp>", public ] },
-  { include: [ "\"boost/optional/optional.hpp\"", private, "<boost/optional.hpp>", public ] }
-]

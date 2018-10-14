@@ -7,17 +7,9 @@ ADD . $PROJECT_ROOT
 
 WORKDIR $PROJECT_ROOT
 
+# Pre-build all dependencies and cache them (they are release so just debug build with different compilers is sufficient)
+RUN CXX=g++-7 CC=gcc-7 cmake -H. -Bbuild-gcc-debug -DCMAKE_BUILD_TYPE=Debug
+RUN CXX=clang++-7 CC=clang-7 cmake -H. -Bbuild-clang-debug -DCMAKE_BUILD_TYPE=Debug
 
-RUN if [ -d "build-clang-debug" ]; then rm -Rf build-clang-debug; fi
-RUN mkdir build-clang-debug
-RUN cd build-clang-debug && conan install .. --profile ../tools/conan/profile-clang --build missing && cd ..
-
-RUN if [ -d "build-clang-release" ]; then rm -Rf build-clang-release; fi
-RUN mkdir build-clang-release
-
-RUN if [ -d "build-gcc-debug" ]; then rm -Rf build-gcc-debug; fi
-RUN mkdir build-gcc-debug
-RUN cd build-gcc-debug && conan install .. --profile ../tools/conan/profile-gcc --build missing && cd ..
-
-RUN if [ -d "build-gcc-release" ]; then rm -Rf build-gcc-release; fi
-RUN mkdir build-gcc-release
+# Clean up all possible build dirs
+RUN find . -maxdepth 1 -name "build*" -type d -exec rm -r {} +
