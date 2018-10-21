@@ -6,7 +6,7 @@ Different utils \ helpers in C++11. Boost is used.
 
 ## Platform
 
-Ubuntu 18.04: Clang 6.0, GCC 7.3, Cmake 3.10.2, Conan 1.5.2
+Ubuntu 18.04: Clang 6.0, GCC 7.3, Cmake 3.10.2, Conan
 
 C++11 Standard is used.
 
@@ -72,7 +72,7 @@ conan upload "*" -r <REMOTE> --all
 
 ## Install pylint - python checker
 
-`sudo pip install pylint==1.8.0`
+`sudo pip install pylint`
 
 ## Build
 
@@ -177,24 +177,6 @@ mkdir build && cd build
 cmake ..
 make clang-tidy
 ```
-
-### Include-What-You-Use
-
-Setup for CLang 6.0
-
-Prepare IWYU
-
-```bash
-sudo apt install libncurses-dev libclang-dev libz-dev
-git clone https://github.com/include-what-you-use/include-what-you-use.git
-git checkout -b clang_6.0 origin/clang_6.0
-mkdir build && cd build
-cmake -DIWYU_LLVM_ROOT_PATH=/usr/lib/llvm-6.0 -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ ..
-make
-sudo make install
-```
-
-Once `include-what-you-use` is available in the `PATH` the one can check project by invoking `make iwyu`.
 
 ### YouCompleteMe
 

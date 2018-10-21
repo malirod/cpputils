@@ -1,3 +1,5 @@
 FROM malirod/dev-cpputils
 
 ADD . $PROJECT_ROOT
+
+WORKDIR $PROJECT_ROOT
