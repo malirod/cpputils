@@ -6,9 +6,9 @@ Different utils \ helpers in C++11. Boost is used.
 
 ## Platform
 
-Ubuntu 18.04: Clang 6.0, GCC 7.3, Cmake 3.10.2, Conan
+Ubuntu 18.10: Clang 7.0, GCC 8.2, Cmake 3.12, Conan
 
-C++11 Standard is used.
+C++14 Standard is used.
 
 See `tools/Dockerfile-dev-base` for details how to setup development environment
 
@@ -45,30 +45,11 @@ Add additional repositories to conan:
 
 - `conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan`
 
-Cmake will automatically check required dependencies and setup them taking into account current compiler (clang or gcc). To tune profiles consider changing `tools/conan/profile-clang` or `tools/conan/profile-gcc`
+Cmake will automatically check required dependencies and setup them taking into account current compiler (clang or gcc).
 
-To make pre-build dependencies run conan manually from build dirs. E.g. run from project root
+Conan misses gcc 8.2 in default config at the moment. The one can use pre-defined config file.
 
-```bash
-mkdir build-clang && cd build-clang
-conan install .. --profile ../tools/conan/profile-clang --build missing
-cd ..
-mkdir build-gcc && cd build-gcc
-conan install .. --profile ../tools/conan/profile-gcc --build missing
-```
-
-Dependencies can be setup using custom profile with following command (run from build dir)
-
-`conan install .. --profile ../tools/conan/profile-clang-custom --build missing`
-
-**Hint:** to upload build packages to server use the following commands
-
-```bash
-conan remote add <REMOTE> https://api.bintray.com/conan/malirod/stable
-conan user -p <APIKEY> -r <REMOTE> <USERNAME>
-conan install . -r <REMOTE>
-conan upload "*" -r <REMOTE> --all
-```
+`conan config install ./tools/conan/cfg`
 
 ## Install pylint - python checker
 
@@ -86,7 +67,7 @@ Run in project root to build debug version with clang
 
 To build release version with gcc run the following command
 
-`RUN mkdir build-gcc-release && cd build-gcc-release && cmake -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=Release .. && make -j$(nproc)`
+`RUN mkdir build-gcc-release && cd build-gcc-release && CXX=g++ cmake -DCMAKE_BUILD_TYPE=Release .. && make -j$(nproc)`
 
 ### Build with sanitizers (clang)
 

@@ -18,5 +18,5 @@ script:
   - docker run --rm travis-build /bin/bash -c "mkdir build-clang-tidy && cd build-clang-tidy && CXX=clang++-7 CC=clang-7 cmake .. && make clang-tidy -j$(nproc)"
   - docker run --rm travis-build /bin/bash -c "mkdir build-clang-debug && cd build-clang-debug && CXX=clang++-7 CC=clang-7 cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j$(nproc) && ctest --output-on-failure"
   - docker run --rm travis-build /bin/bash -c "mkdir build-clang-release && cd build-clang-release && CXX=clang++-7 CC=clang-7 cmake -DCMAKE_BUILD_TYPE=Release .. && make -j$(nproc) && ctest --output-on-failure"
-  - docker run --rm travis-build /bin/bash -c "mkdir build-gcc-debug && cd build-gcc-debug && CXX=g++-7 CC=gcc-7 cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j$(nproc) && ctest --output-on-failure"
-  - docker run --rm travis-build /bin/bash -c "mkdir build-gcc-release && cd build-gcc-release && CXX=g++-7 CC=gcc-7 cmake -DCMAKE_BUILD_TYPE=Release .. && make -j$(nproc) && ctest --output-on-failure"
+  - docker run --rm travis-build /bin/bash -c "mkdir build-gcc-debug && cd build-gcc-debug && CXX=g++-8 CC=gcc-8 cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j$(nproc) && ctest --output-on-failure"
+  - docker run --rm travis-build /bin/bash -c "mkdir build-gcc-release && cd build-gcc-release && CXX=g++-8 CC=gcc-8 cmake -DCMAKE_BUILD_TYPE=Release .. && make -j$(nproc) && ctest --output-on-failure"

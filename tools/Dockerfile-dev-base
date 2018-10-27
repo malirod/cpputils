@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:18.10
 
 ENV HOME /root
 
@@ -19,16 +19,7 @@ RUN apt install -y gnupg
 
 # Install Clang-7
 
-RUN echo "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-7 main" | tee -a /etc/apt/sources.list
-RUN echo "deb-src http://apt.llvm.org/bionic/ llvm-toolchain-bionic-7 main" | tee -a /etc/apt/sources.list
-RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|apt-key add -
-RUN apt update
 RUN apt install -y clang-7 lldb-7 clang-format-7 clang-tidy-7 python-lldb-7
-RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-7 70
-RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-7 70
-RUN update-alternatives --install /usr/bin/llvm-symbolizer llvm-symbolizer /usr/bin/llvm-symbolizer-7 70
-RUN update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-7 70
-RUN update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-7 70
 
 # Install Conan
 RUN apt install -y python-pip
