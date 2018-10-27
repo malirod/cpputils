@@ -39,7 +39,7 @@ echo -e "$TEXT_INFO" "Checking cpp style with clang-format" "$TEXT_DEFAULT"
 # Use update-alternatives to set default clang.
 
 # set path to clang-format binary
-CLANG_FORMAT=$(command -v clang-format)
+CLANG_FORMAT=$(command -v clang-format-7)
 # Verify clang-format. Note: Different versions might produce different formatting for the same config
 CLANG_FORMAT_REQUIRED_VERSION=7.
 CLANG_FORMAT_CURRENT_VERSION=$($CLANG_FORMAT -version)

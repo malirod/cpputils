@@ -7,8 +7,10 @@ ADD . $PROJECT_ROOT
 
 WORKDIR $PROJECT_ROOT
 
+RUN conan config install ./tools/conan/cfg
+
 # Pre-build all dependencies and cache them (they are release so just debug build with different compilers is sufficient)
-RUN CXX=g++-7 CC=gcc-7 cmake -H. -Bbuild-gcc-debug -DCMAKE_BUILD_TYPE=Debug
+RUN CXX=g++-8 CC=gcc-8 cmake -H. -Bbuild-gcc-debug -DCMAKE_BUILD_TYPE=Debug
 RUN CXX=clang++-7 CC=clang-7 cmake -H. -Bbuild-clang-debug -DCMAKE_BUILD_TYPE=Debug
 
 # Clean up all possible build dirs
